@@ -1,0 +1,54 @@
+:root {
+  /* プロトタイピング用 */
+  --bg-color-main: #fcfaf2;
+  --bg-color-sub-1: #91989f;
+  --bg-color-sub-2: #7b90d2;
+  --font-color-main: #0c0c0c;
+  --font-color-sub-1: #fcfcfc;
+}
+
+.layout {
+  background-color: var(--bg-color-main);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+/* エントランス画面ここから */
+.entrance {
+  background-color: var(--bg-color-sub-1);
+  width: 320px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 16px;
+  padding: 32px;
+}
+
+.entrance_title {
+  color: var(--font-color-sub-1);
+}
+
+.entrance_buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  width: 160px;
+}
+
+.entrance_buttons_button {
+  outline: none;
+  border: none;
+  padding: 12px;
+  border-radius: 6px;
+  font-weight: 600;
+  width: 100%;
+}
+
+/* エントランス画面ここまで */
+
+/* ゲーム画面ここから */
+
+/* ゲーム画面ここまで */
