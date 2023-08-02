@@ -13,18 +13,19 @@
     />
     <link rel="stylesheet" href="styles/reset.css" />
     <link rel="stylesheet" href="styles/style.css" />
-    <script src="./main.js" defer></script>
-    <script src="./explanation.js" defer></script>
+    <script src="./scripts/main.js" defer></script>
+    <script src="./scripts/explanation.js" defer></script>
     <title>team-c</title>
   </head>
   <body id="js-layout" class="layout">
     <div id="js-entrance" class="entrance">
       <h1 class="entrance_title">テトリス</h1>
       <div class="entrance_buttons">
-        <button class="entrance_buttons_button">ゲームスタート</button>
-        <button id="js-explanation" class="entrance_buttons_button">説明</button>
+        <button id="js-game-start-button" class="entrance_buttons_button">ゲームスタート</button>
+        <button id="js-explanation-button" class="entrance_buttons_button">説明</button>
       </div>
     </div>
-    <div id="js-layout-explanation"></div>
+    <div id="js-explanation"></div>
+    <div id="js-game"></div>
   </body>
 </html>
