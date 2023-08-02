@@ -26,7 +26,7 @@ var shape = [
   [0,0,0,0]
 ]
 
-
+var currentShape = shape
 
 
 
@@ -78,31 +78,19 @@ function render() {
     for (var x = 0; x < 4; ++x ) {
       if ( currentShape[y][x] ) {
         ctx.fillStyle = colors[ currentShape[ y ][ x ] - 1 ];
-        drawBlock( x, y );
+        drawBlock( x + currentX, y + currentY );
       }
     }
   }
 }
-render();
 
 function tick() {
-  
-  for ( var y = 0; y < ROWS; ++y ) {
-    for ( var x = 0; x < COLS; ++x ) {
-      board[y][x] = 0;
-    }
-  }
-}
-tick();
-render();
-
-var ii = 1
-function count() {
-  console.log(ii)
-  ii++;
+  currentY++;
+  console.log(currentY)
+  render();
 }
 
-var interval = setInterval( count, 1000 )
+var interval = setInterval( tick, 1000 )
 
 
 // var y = 10
