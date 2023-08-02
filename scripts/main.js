@@ -1,24 +1,5 @@
 "use strict";
 
-// keydownイベントの数字と動作の紐づけを行います
-// 例えば、{ 37: 'left' }のように定義します
-// HTMLのbodyタグに紐づけておきます
-// 参考:https://developer.mozilla.org/ja/docs/Web/API/Element/keydown_event
-
-
-
-// canvas要素を活用して、描画する各関数を定義します
-// 参考:https://developer.mozilla.org/ja/docs/Web/HTML/Element/canvas#%E4%BE%8B
-
-// 1つのブロックを描画する関数を作成します
-// (x, y)を引数としてとりその位置に表示するようにします
-
-// canvas上にテトロミノを描画します
-// controller.jsから呼び出して、描画の部分だけ切り出すようにします
-// 描画するかどうかは、tetris.jsで配列などで管理して、受け渡します
-
-// 各テトロミノを定義します
-
 var shape = [
   [0,0,1,1],
   [0,0,0,1],
@@ -27,8 +8,6 @@ var shape = [
 ]
 
 var currentShape = shape
-
-
 
 
 
@@ -57,10 +36,12 @@ function drawBlock( x, y ) {
   ctx.fillRect( BLOCK_W * x, BLOCK_H * y, BLOCK_W - 1 , BLOCK_H - 1 );
   ctx.strokeRect( BLOCK_W * x, BLOCK_H * y, BLOCK_W - 1 , BLOCK_H - 1 );
 }
+
 ctx.strokeStyle = 'black';
 var colors = [
   'cyan', 'orange', 'blue', 'yellow', 'red', 'green', 'purple'
 ];
+
 function render() {
   ctx.clearRect( 0, 0, W, H );
 
@@ -91,22 +72,3 @@ function tick() {
 }
 
 var interval = setInterval( tick, 1000 )
-
-
-// var y = 10
-
-// board = [[1, 0], [0, 1]]
-// for (let i = 0; i < 2; i++) {
-//   for (let j = 0; j < 2; j++) {
-//     ctx.fillStyle = 'green';
-//     ctx.fillRect(j*100, i*100, board[i][j]*100, board[i][j]*100);
-//   }
-// }
-
-// function square(number) {
-//   // y += 10
-//   // ctx.fillRect(10, 10, 100, 100);
-// }
-
-// setInterval(square, )
-// // 
