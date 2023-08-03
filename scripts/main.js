@@ -3,10 +3,10 @@
 // board rendering config
 const H = 600;
 const W = 300;
-const ROWS = 20;
-const COLS = 10;
 
 // block rendering config
+const ROWS = 20;
+const COLS = 10;
 const BLOCK_H = H / ROWS;
 const BLOCK_W = W / COLS;
 const shapes = [
@@ -65,7 +65,7 @@ canvas.height = H;
 canvas.classList.add("canvas");
 const ctx = canvas.getContext("2d");
 
-const board = [];
+let board = [];
 const randomIndex = Math.floor(Math.random() * shapes.length);
 const currentShape = shapes[randomIndex];
 
@@ -89,7 +89,7 @@ function prepareBoard() {
 function newGame() {
   prepareBoard();
   renderBoard();
-  var interval = setInterval(tick, 1000);
+  let intervalId = setInterval(tick, 1000);
 }
 
 let currentX = 0;
