@@ -68,6 +68,7 @@ const ctx = canvas.getContext("2d");
 let board = [];
 const randomIndex = Math.floor(Math.random() * shapes.length);
 let currentShape = shapes[randomIndex];
+let freezed = false;
 
 gameStartButton.addEventListener("click", () => {
   newGame();
@@ -175,20 +176,13 @@ function valid(shiftX = 0, shiftY = 0, newCurrentShape) {
 }
 
 function freeze() {
-  //   const colors = ["cyan", "orange", "blue", "yellow", "red", "green", "purple"];
-  //   const ROWS = 20;
-  // const COLS = 10;
-  // const BLOCK_H = H / ROWS;
-  // const BLOCK_W = W / COLS;
-  // const shapes = [
-  //   [
-  //     [1, 1, 1, 1],
-
   for (let y = 0; y < 4; ++y) {
     for (let x = 0; x < 4; ++x) {
       board[y + currentY][x + currentX] = currentShape[y][x];
     }
   }
+
+  freezed = true;
 }
 
 function keyPress(key) {
