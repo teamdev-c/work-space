@@ -67,7 +67,7 @@ const ctx = canvas.getContext("2d");
 
 let board = [];
 const randomIndex = Math.floor(Math.random() * shapes.length);
-const currentShape = shapes[randomIndex];
+let currentShape = shapes[randomIndex];
 
 gameStartButton.addEventListener("click", () => {
   newGame();
@@ -87,6 +87,7 @@ function prepareBoard() {
   }
 }
 function newGame() {
+  const userGameController = new UserGameController();
   prepareBoard();
   renderBoard();
   let intervalId = setInterval(tick, 1000);
@@ -126,4 +127,68 @@ function renderBoard() {
 function tick() {
   currentY++;
   renderBoard();
+}
+
+function rotate(current) {
+  let newCurrent = [];
+  for (let y = 0; y < 4; ++y) {
+    newCurrent[y] = [];
+    for (let x = 0; x < 4; ++x) {
+      newCurrent[y][x] = current[3 - x][y];
+    }
+  }
+
+  console.log(newCurrent);
+
+  return newCurrent;
+}
+
+//TODO: valid関数を入れる
+function keyPress(key) {
+  switch (key) {
+    case "left":
+      currentX--;
+      break;
+    case "right":
+      currentX++;
+      break;
+    case "down":
+      currentY++;
+      break;
+    case "rotate":
+      currentShape = rotate(currentShape);
+      break;
+    case "drop":
+      currentY++;
+      break;
+  }
+}
+
+/**
+ * ユーザーのキーボードアクションを定義
+ */
+class UserGameController {
+  keys = {
+    ArrowLeft: "left",
+    ArrowRight: "right",
+    ArrowDown: "down",
+    ArrowUp: "rotate",
+    Space: "drop",
+  };
+  body = document.body;
+
+  constructor() {
+    this.body.addEventListener("keydown", this.keyHandler);
+  }
+
+  destroy() {
+    this.body.removeEventListener("keydown", this.keyHandler);
+  }
+
+  keyHandler = (e) => {
+    if (typeof this.keys[e.code] === "string") {
+      keyPress(this.keys[e.code]);
+      renderBoard();
+    }
+  };
 }
