@@ -206,15 +206,13 @@ function clearLines() {
       }
     }
 
-    if (ok && y == 0) {
-      for (let x = 0; x < COLS; ++x) {
-        board[y][x] = 0;
+    if (ok) {
+      board.splice(y, 1);
+      const a = [];
+      for (let x = 0; x < COLS; x++) {
+        a.push(0);
       }
-    } else if (ok) {
-      for (let x = 0; x < COLS; ++x) {
-        board[y][x] = board[y - 1][x];
-        board[y - 1][x] = 0;
-      }
+      board.unshift(a);
     }
   }
 }
