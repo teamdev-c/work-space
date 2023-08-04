@@ -130,7 +130,7 @@ function tick() {
   } else {
     freeze();
   }
-  
+
   renderBoard();
 }
 
@@ -157,13 +157,14 @@ function valid(shiftX = 0, shiftY = 0, newCurrentShape) {
   for (let y = 0; y < 4; ++y) {
     for (let x = 0; x < 4; ++x) {
       if (newCurrentShape[y][x]) {
-        if (typeof board[ y + shiftY ] === 'undefined'
-        || typeof board[ y + shiftY][ x + shiftX ] === 'undefined'
-        || board[ y + shiftY ][ x + shiftX ]
-        || x + shiftX < 0
-        || y + shiftY < 0
-        || x + shiftX >= COLS
-        || y + shiftY >= ROWS
+        if (
+          typeof board[y + shiftY] === "undefined" ||
+          typeof board[y + shiftY][x + shiftX] === "undefined" ||
+          board[y + shiftY][x + shiftX] ||
+          x + shiftX < 0 ||
+          y + shiftY < 0 ||
+          x + shiftX >= COLS ||
+          y + shiftY >= ROWS
         ) {
           return false;
         }
@@ -174,14 +175,14 @@ function valid(shiftX = 0, shiftY = 0, newCurrentShape) {
 }
 
 function freeze() {
-//   const colors = ["cyan", "orange", "blue", "yellow", "red", "green", "purple"];
-//   const ROWS = 20;
-// const COLS = 10;
-// const BLOCK_H = H / ROWS;
-// const BLOCK_W = W / COLS;
-// const shapes = [
-//   [
-//     [1, 1, 1, 1],
+  //   const colors = ["cyan", "orange", "blue", "yellow", "red", "green", "purple"];
+  //   const ROWS = 20;
+  // const COLS = 10;
+  // const BLOCK_H = H / ROWS;
+  // const BLOCK_W = W / COLS;
+  // const shapes = [
+  //   [
+  //     [1, 1, 1, 1],
 
   for (let y = 0; y < 4; ++y) {
     for (let x = 0; x < 4; ++x) {
@@ -193,28 +194,28 @@ function freeze() {
 function keyPress(key) {
   switch (key) {
     case "left":
-      if (valid( -1 )) {
+      if (valid(-1)) {
         currentX--;
       }
       break;
     case "right":
-      if (valid( 1 )) {
+      if (valid(1)) {
         currentX++;
       }
       break;
     case "down":
-      if (valid( 0, 1 )) {
+      if (valid(0, 1)) {
         currentY++;
       }
       break;
     case "rotate":
       let newCurrentShape = rotate(currentShape);
-      if (valid( 0, 0, newCurrentShape )) {
+      if (valid(0, 0, newCurrentShape)) {
         currentShape = newCurrentShape;
       }
       break;
     case "drop":
-      while(valid( 0, 1 )) {
+      while (valid(0, 1)) {
         currentY++;
       }
       tick();
