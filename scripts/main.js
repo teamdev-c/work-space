@@ -142,6 +142,7 @@ function tick() {
     currentY++;
   } else {
     freeze();
+    clearLines();
     createNewShape();
   }
 }
@@ -194,6 +195,28 @@ function freeze() {
   }
 
   freezed = true;
+}
+
+function clearLines() {
+  for (let y = 0; y < ROWS; ++y) {
+    let ok = true;
+    for (let x = 0; x < COLS; ++x) {
+      if (!board[y][x]) {
+        ok = false;
+      }
+    }
+
+    if (ok && y == 0) {
+      for (let x = 0; x < COLS; ++x) {
+        board[y][x] = 0;
+      }
+    } else if (ok) {
+      for (let x = 0; x < COLS; ++x) {
+        board[y][x] = board[y - 1][x];
+        board[y - 1][x] = 0;
+      }
+    }
+  }
 }
 
 function keyPress(key) {
