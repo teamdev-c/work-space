@@ -87,14 +87,16 @@ function prepareBoard() {
     board.push(a);
   }
 }
+
 function newGame() {
   const userGameController = new UserGameController();
   prepareBoard();
   renderBoard();
+  let intervalRender = setInterval(renderBoard, 30);
   let intervalId = setInterval(tick, 1000);
 }
 
-let currentX = 0;
+let currentX = 3;
 let currentY = 0;
 
 function drawBlock(x, y) {
@@ -125,14 +127,23 @@ function renderBoard() {
   }
 }
 
+function createNewShape() {
+  const randomIndex = Math.floor(Math.random() * shapes.length);
+  const newShape = shapes[randomIndex];
+  currentShape = newShape;
+
+  freezed = false;
+  currentX = 3;
+  currentY = 0;
+}
+
 function tick() {
   if (valid(0, 1)) {
     currentY++;
   } else {
     freeze();
+    createNewShape();
   }
-
-  renderBoard();
 }
 
 function rotate(current) {
@@ -143,8 +154,6 @@ function rotate(current) {
       newCurrent[y][x] = current[3 - x][y];
     }
   }
-
-  console.log(newCurrent);
 
   return newCurrent;
 }
@@ -178,7 +187,9 @@ function valid(shiftX = 0, shiftY = 0, newCurrentShape) {
 function freeze() {
   for (let y = 0; y < 4; ++y) {
     for (let x = 0; x < 4; ++x) {
-      board[y + currentY][x + currentX] = currentShape[y][x];
+      if (currentShape[y][x]) {
+        board[y + currentY][x + currentX] = currentShape[y][x];
+      }
     }
   }
 
