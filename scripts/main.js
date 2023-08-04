@@ -143,23 +143,59 @@ function rotate(current) {
   return newCurrent;
 }
 
-//TODO: valid関数を入れる
+// TODO freeze処理の実装
+function valid(shiftX = 0, shiftY = 0, newCurrentShape) {
+  shiftX = currentX + shiftX;
+  shiftY = currentY + shiftY;
+  newCurrentShape = newCurrentShape || currentShape;
+
+  for (let y = 0; y < 4; ++y) {
+    for (let x = 0; x < 4; ++x) {
+      if (newCurrentShape[y][x]) {
+        if (typeof board[ y + shiftY ] === 'undefined'
+        || typeof board[ y + shiftY][ x + shiftX ] === 'undefined'
+        || board[ y + shiftY ][ x + shiftX ]
+        || x + shiftX < 0
+        || y + shiftY < 0
+        || x + shiftX >= COLS
+        || y + shiftY >= ROWS
+        ) {
+          return false;
+        }
+      }
+    }
+  }
+  return true;
+}
+
 function keyPress(key) {
   switch (key) {
     case "left":
-      currentX--;
+      if (valid( -1 )) {
+        currentX--;
+      }
       break;
     case "right":
-      currentX++;
+      if (valid( 1 )) {
+        currentX++;
+      }
       break;
     case "down":
-      currentY++;
+      if (valid( 0, 1 )) {
+        currentY++;
+      }
       break;
     case "rotate":
-      currentShape = rotate(currentShape);
+      let newCurrentShape = rotate(currentShape);
+      if (valid( 0, 0, newCurrentShape )) {
+        currentShape = newCurrentShape;
+      }
       break;
     case "drop":
-      currentY++;
+      while(valid( 0, 1 )) {
+        currentY++;
+      }
+      tick();
       break;
   }
 }
