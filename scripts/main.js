@@ -68,6 +68,7 @@ const ctx = canvas.getContext("2d");
 let board = [];
 const randomIndex = Math.floor(Math.random() * shapes.length);
 let currentShape = shapes[randomIndex];
+let freezed = false;
 
 gameStartButton.addEventListener("click", () => {
   newGame();
@@ -125,7 +126,12 @@ function renderBoard() {
 }
 
 function tick() {
-  currentY++;
+  if (valid(0, 1)) {
+    currentY++;
+  } else {
+    freeze();
+  }
+
   renderBoard();
 }
 
@@ -152,13 +158,14 @@ function valid(shiftX = 0, shiftY = 0, newCurrentShape) {
   for (let y = 0; y < 4; ++y) {
     for (let x = 0; x < 4; ++x) {
       if (newCurrentShape[y][x]) {
-        if (typeof board[ y + shiftY ] === 'undefined'
-        || typeof board[ y + shiftY][ x + shiftX ] === 'undefined'
-        || board[ y + shiftY ][ x + shiftX ]
-        || x + shiftX < 0
-        || y + shiftY < 0
-        || x + shiftX >= COLS
-        || y + shiftY >= ROWS
+        if (
+          typeof board[y + shiftY] === "undefined" ||
+          typeof board[y + shiftY][x + shiftX] === "undefined" ||
+          board[y + shiftY][x + shiftX] ||
+          x + shiftX < 0 ||
+          y + shiftY < 0 ||
+          x + shiftX >= COLS ||
+          y + shiftY >= ROWS
         ) {
           return false;
         }
@@ -168,31 +175,41 @@ function valid(shiftX = 0, shiftY = 0, newCurrentShape) {
   return true;
 }
 
+function freeze() {
+  for (let y = 0; y < 4; ++y) {
+    for (let x = 0; x < 4; ++x) {
+      board[y + currentY][x + currentX] = currentShape[y][x];
+    }
+  }
+
+  freezed = true;
+}
+
 function keyPress(key) {
   switch (key) {
     case "left":
-      if (valid( -1 )) {
+      if (valid(-1)) {
         currentX--;
       }
       break;
     case "right":
-      if (valid( 1 )) {
+      if (valid(1)) {
         currentX++;
       }
       break;
     case "down":
-      if (valid( 0, 1 )) {
+      if (valid(0, 1)) {
         currentY++;
       }
       break;
     case "rotate":
       let newCurrentShape = rotate(currentShape);
-      if (valid( 0, 0, newCurrentShape )) {
+      if (valid(0, 0, newCurrentShape)) {
         currentShape = newCurrentShape;
       }
       break;
     case "drop":
-      while(valid( 0, 1 )) {
+      while (valid(0, 1)) {
         currentY++;
       }
       tick();
