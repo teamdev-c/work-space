@@ -125,7 +125,12 @@ function renderBoard() {
 }
 
 function tick() {
-  currentY++;
+  if (valid(0, 1)) {
+    currentY++;
+  } else {
+    freeze();
+  }
+  
   renderBoard();
 }
 
@@ -166,6 +171,23 @@ function valid(shiftX = 0, shiftY = 0, newCurrentShape) {
     }
   }
   return true;
+}
+
+function freeze() {
+//   const colors = ["cyan", "orange", "blue", "yellow", "red", "green", "purple"];
+//   const ROWS = 20;
+// const COLS = 10;
+// const BLOCK_H = H / ROWS;
+// const BLOCK_W = W / COLS;
+// const shapes = [
+//   [
+//     [1, 1, 1, 1],
+
+  for (let y = 0; y < 4; ++y) {
+    for (let x = 0; x < 4; ++x) {
+      board[y + currentY][x + currentX] = currentShape[y][x];
+    }
+  }
 }
 
 function keyPress(key) {
