@@ -1,92 +1,86 @@
 "use strict";
 
-// board rendering config
-const H = 600;
-const W = 300;
+/**
+ * canvasの大きさや行と列の設定
+ */
+const boardConfig = {
+  H: 600,
+  W: 300,
+  ROWS: 20,
+  COLS: 10,
+};
 
-// block rendering config
-const ROWS = 20;
-const COLS = 10;
-const BLOCK_H = H / ROWS;
-const BLOCK_W = W / COLS;
-const shapes = [
-  [
-    [1, 1, 1, 1],
-    [0, 0, 0, 0],
-    [0, 0, 0, 0],
-    [0, 0, 0, 0],
+/**
+ * ブロックの大きさや形状の設定
+ */
+const tetrominoConfig = {
+  BLOCK_H: boardConfig.H / boardConfig.ROWS,
+  BLOCK_W: boardConfig.W / boardConfig.COLS,
+  shapes: [
+    [
+      [1, 1, 1, 1],
+      [0, 0, 0, 0],
+      [0, 0, 0, 0],
+      [0, 0, 0, 0],
+    ],
+    [
+      [2, 2, 2, 0],
+      [2, 0, 0, 0],
+      [0, 0, 0, 0],
+      [0, 0, 0, 0],
+    ],
+    [
+      [3, 3, 3, 0],
+      [0, 0, 3, 0],
+      [0, 0, 0, 0],
+      [0, 0, 0, 0],
+    ],
+    [
+      [4, 4, 0, 0],
+      [4, 4, 0, 0],
+      [0, 0, 0, 0],
+      [0, 0, 0, 0],
+    ],
+    [
+      [5, 5, 0, 0],
+      [0, 5, 5, 0],
+      [0, 0, 0, 0],
+      [0, 0, 0, 0],
+    ],
+    [
+      [0, 6, 6, 0],
+      [6, 6, 0, 0],
+      [0, 0, 0, 0],
+      [0, 0, 0, 0],
+    ],
+    [
+      [0, 7, 0, 0],
+      [7, 7, 7, 0],
+      [0, 0, 0, 0],
+      [0, 0, 0, 0],
+    ],
   ],
-  [
-    [2, 2, 2, 0],
-    [2, 0, 0, 0],
-    [0, 0, 0, 0],
-    [0, 0, 0, 0],
-  ],
-  [
-    [3, 3, 3, 0],
-    [0, 0, 3, 0],
-    [0, 0, 0, 0],
-    [0, 0, 0, 0],
-  ],
-  [
-    [4, 4, 0, 0],
-    [4, 4, 0, 0],
-    [0, 0, 0, 0],
-    [0, 0, 0, 0],
-  ],
-  [
-    [5, 5, 0, 0],
-    [0, 5, 5, 0],
-    [0, 0, 0, 0],
-    [0, 0, 0, 0],
-  ],
-  [
-    [0, 6, 6, 0],
-    [6, 6, 0, 0],
-    [0, 0, 0, 0],
-    [0, 0, 0, 0],
-  ],
-  [
-    [0, 7, 0, 0],
-    [7, 7, 7, 0],
-    [0, 0, 0, 0],
-    [0, 0, 0, 0],
-  ],
-];
-const colors = ["cyan", "orange", "blue", "yellow", "red", "green", "purple"];
+  colors: ["cyan", "orange", "blue", "yellow", "red", "green", "purple"],
+};
 
 const entrance = document.getElementById("js-entrance");
 const game = document.getElementById("js-game");
 const gameStartButton = document.getElementById("js-game-start-button");
 
 const canvas = document.createElement("canvas");
-canvas.width = W;
-canvas.height = H;
+canvas.width = boardConfig.W;
+canvas.height = boardConfig.H;
 canvas.classList.add("canvas");
 const ctx = canvas.getContext("2d");
 
 let board = [];
-const randomIndex = Math.floor(Math.random() * shapes.length);
-let currentShape = shapes[randomIndex];
+const randomIndex = Math.floor(Math.random() * tetrominoConfig.shapes.length);
+let currentShape = tetrominoConfig.shapes[randomIndex];
 let freezed = false;
 
 gameStartButton.addEventListener("click", () => {
   newGame();
 });
-
-function prepareBoard() {
-  entrance.classList.add("hidden");
-  game.append(canvas);
-
-  // clear board by filling 0
-  for (let y = 0; y < ROWS; y++) {
-    const a = [];
-    for (let x = 0; x < COLS; x++) {
-      a.push(0);
-    }
-    board.push(a);
-  }
-}
 
 function newGame() {
   const userGameController = new UserGameController();
@@ -99,19 +93,34 @@ function newGame() {
 let currentX = 3;
 let currentY = 0;
 
-function drawBlock(x, y) {
-  ctx.fillRect(BLOCK_W * x, BLOCK_H * y, BLOCK_W - 1, BLOCK_H - 1);
-  ctx.strokeRect(BLOCK_W * x, BLOCK_H * y, BLOCK_W - 1, BLOCK_H - 1);
+/**
+ * ボードの初期化処理
+ */
+function prepareBoard() {
+  entrance.classList.add("hidden");
+  game.append(canvas);
+
+  // clear board by filling 0
+  for (let y = 0; y < boardConfig.ROWS; y++) {
+    const a = [];
+    for (let x = 0; x < boardConfig.COLS; x++) {
+      a.push(0);
+    }
+    board.push(a);
+  }
 }
 
+/**
+ * ボード全体を描画する処理
+ */
 function renderBoard() {
-  ctx.clearRect(0, 0, W, H);
+  ctx.clearRect(0, 0, boardConfig.W, boardConfig.H);
 
   ctx.strokeStyle = "black";
-  for (let y = 0; y < ROWS; y++) {
-    for (let x = 0; x < COLS; x++) {
+  for (let y = 0; y < boardConfig.ROWS; y++) {
+    for (let x = 0; x < boardConfig.COLS; x++) {
       if (board[y][x]) {
-        ctx.fillStyle = colors[board[y][x] - 1];
+        ctx.fillStyle = tetrominoConfig.colors[board[y][x] - 1];
         drawBlock(x, y);
       }
     }
@@ -120,16 +129,31 @@ function renderBoard() {
   for (let y = 0; y < 4; y++) {
     for (let x = 0; x < 4; x++) {
       if (currentShape[y][x]) {
-        ctx.fillStyle = colors[currentShape[y][x] - 1];
+        ctx.fillStyle = tetrominoConfig.colors[currentShape[y][x] - 1];
         drawBlock(x + currentX, y + currentY);
       }
     }
   }
 }
 
-function createNewShape() {
-  const randomIndex = Math.floor(Math.random() * shapes.length);
-  const newShape = shapes[randomIndex];
+/**
+ * ブロックを描画する処理
+ * @param {number} x
+ * @param {number} y
+ */
+function drawBlock(x, y) {
+  const BLOCK_W = tetrominoConfig.BLOCK_W;
+  const BLOCK_H = tetrominoConfig.BLOCK_H;
+  ctx.fillRect(BLOCK_W * x, BLOCK_H * y, BLOCK_W - 1, BLOCK_H - 1);
+  ctx.strokeRect(BLOCK_W * x, BLOCK_H * y, BLOCK_W - 1, BLOCK_H - 1);
+}
+
+/**
+ * ランダムに新しいテトロミノを生成する処理
+ */
+function generateNewShape() {
+  const randomIndex = Math.floor(Math.random() * tetrominoConfig.shapes.length);
+  const newShape = tetrominoConfig.shapes[randomIndex];
   currentShape = newShape;
 
   freezed = false;
@@ -137,16 +161,24 @@ function createNewShape() {
   currentY = 0;
 }
 
+/**
+ * テトロミノをY方向に動かす処理と着地時の処理
+ */
 function tick() {
   if (valid(0, 1)) {
     currentY++;
   } else {
     freeze();
     clearLines();
-    createNewShape();
+    generateNewShape();
   }
 }
 
+/**
+ * テトロミノの回転処理
+ * @param {number[][]} current
+ * @returns{number[][]} newCurrent
+ */
 function rotate(current) {
   let newCurrent = [];
   for (let y = 0; y < 4; ++y) {
@@ -174,8 +206,8 @@ function valid(shiftX = 0, shiftY = 0, newCurrentShape) {
           board[y + shiftY][x + shiftX] ||
           x + shiftX < 0 ||
           y + shiftY < 0 ||
-          x + shiftX >= COLS ||
-          y + shiftY >= ROWS
+          x + shiftX >= boardConfig.COLS ||
+          y + shiftY >= boardConfig.ROWS
         ) {
           return false;
         }
@@ -198,9 +230,9 @@ function freeze() {
 }
 
 function clearLines() {
-  for (let y = 0; y < ROWS; ++y) {
+  for (let y = 0; y < boardConfig.ROWS; ++y) {
     let ok = true;
-    for (let x = 0; x < COLS; ++x) {
+    for (let x = 0; x < boardConfig.COLS; ++x) {
       if (!board[y][x]) {
         ok = false;
       }
@@ -209,7 +241,7 @@ function clearLines() {
     if (ok) {
       board.splice(y, 1);
       const a = [];
-      for (let x = 0; x < COLS; x++) {
+      for (let x = 0; x < boardConfig.COLS; x++) {
         a.push(0);
       }
       board.unshift(a);
@@ -217,6 +249,10 @@ function clearLines() {
   }
 }
 
+/**
+ * ユーザーのキーボードアクションを受け取り、テトロミノを動かす
+ * @param {string} key
+ */
 function keyPress(key) {
   switch (key) {
     case "left":
