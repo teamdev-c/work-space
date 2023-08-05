@@ -100,8 +100,8 @@
 
 /* ゲーム画面ここから */
 .canvas {
-  background-color: var(--bg-color-sub-1);
-  border: 4px solid var(--border-color-main);
+  background-color: #91989F;
+  border: 4px solid #0C0C0C;
   margin-top: 40px;
 }
 /* ゲーム画面ここまで */
