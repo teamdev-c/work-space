@@ -10,7 +10,9 @@
     explanationButton = document.getElementById("js-explanation-button");
 
     constructor() {
-      this.explanationButton.addEventListener("click", this.render);
+      this.explanationButton.addEventListener("click", () => {
+        this.render();
+      });
     }
 
     render() {
