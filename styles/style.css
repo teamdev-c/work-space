@@ -7,14 +7,13 @@
   --font-color-main: #0c0c0c;
   --font-color-sub-1: #fcfcfc;
   --border-color-main: #0c0c0c;
-  font-family: 'Shippori Mincho', serif;
+  font-family: "Shippori Mincho", serif;
 }
 
 .layout {
-  background-color: #3A8FB7;
+  background-color: #3a8fb7;
   display: flex;
   justify-content: center;
-  height: 100vh;
 }
 
 .hidden {
@@ -31,12 +30,12 @@
   gap: 48px;
   border-radius: 16px;
   padding: 32px;
-  margin-top: 160px;
+  margin-top: 180px;
 }
 
 .entrance_title {
   color: var(--font-color-sub-1);
-  font-size: 44px;
+  font-size: 48px;
   font-weight: 600;
 }
 
@@ -69,7 +68,7 @@
   gap: 32px;
   border-radius: 16px;
   padding: 32px;
-  margin-top: 160px;
+  margin-top: 180px;
 }
 
 .explanation_header {
@@ -81,7 +80,7 @@
 
 .explanation_header_title {
   color: var(--font-color-sub-1);
-  font-size: 28px;
+  font-size: 36px;
   font-weight: 600;
 }
 
@@ -99,9 +98,39 @@
 /* エントランス画面ここまで */
 
 /* ゲーム画面ここから */
-.canvas {
-  background-color: #91989F;
-  border: 4px solid #0C0C0C;
-  margin-top: 40px;
+.game {
+  display: flex;
+  gap: 20px;
+  margin-top: 70px;
+}
+
+.game_canvas {
+  background-color: #91989f;
+  border: 4px solid #0c0c0c;
+}
+
+.game_controller {
+}
+
+.game_controller_buttons {
+  display: flex;
+  gap: 12px;
+}
+
+.game_controller_buttons_button {
+  height: fit-content;
+  outline: none;
+  border: none;
+  padding: 12px;
+  border-radius: 6px;
+  font-weight: bold;
+  background-color: var(--bg-color-main);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.game_controller_buttons_button:disabled {
+  background-color: #fcfaf2c5;
 }
 /* ゲーム画面ここまで */

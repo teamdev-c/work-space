@@ -70,7 +70,7 @@ const gameStartButton = document.getElementById("js-game-start-button");
 const canvas = document.createElement("canvas");
 canvas.width = boardConfig.W;
 canvas.height = boardConfig.H;
-canvas.classList.add("canvas");
+canvas.classList.add("game_canvas");
 const ctx = canvas.getContext("2d");
 
 let board;
@@ -102,17 +102,28 @@ function prepareBoard() {
 /**
  * ゲームコントローラーの準備処理
  */
-const button = document.createElement("button");
+const restartButton = document.createElement("button");
+const backToTopButton = document.createElement("button");
 function prepareGameController() {
   const gameController = new GameController();
 
-  const div = document.createElement("div");
-  button.innerText = "リスタート";
-  button.addEventListener("click", () => {
+  const buttonContainer = document.createElement("div");
+  buttonContainer.classList.add("game_controller_buttons");
+
+  restartButton.classList.add("game_controller_buttons_button");
+  restartButton.innerText = "りすたーと";
+  restartButton.addEventListener("click", () => {
     newGame();
   });
-  div.append(button);
-  game.append(div);
+
+  backToTopButton.classList.add("game_controller_buttons_button");
+  backToTopButton.innerText = "とっぷへもどる";
+
+  buttonContainer.append(restartButton, backToTopButton);
+
+  game.classList.add("game");
+  game.append(canvas);
+  game.append(buttonContainer);
 }
 
 /**
@@ -161,7 +172,7 @@ function newGame() {
 function initializeState() {
   currentShape = [];
   lose = false;
-  button.disabled = true;
+  restartButton.disabled = true;
   clearAllIntervals(intervalId, intervalRenderId);
   clearBoard();
 }
@@ -247,7 +258,7 @@ function tick() {
     valid(0, 1);
     if (lose) {
       clearAllIntervals(intervalId, intervalRenderId);
-      button.disabled = false;
+      restartButton.disabled = false;
       return;
     }
     clearLines();
