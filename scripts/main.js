@@ -73,34 +73,109 @@ canvas.height = boardConfig.H;
 canvas.classList.add("canvas");
 const ctx = canvas.getContext("2d");
 
-let board = [];
-const randomIndex = Math.floor(Math.random() * tetrominoConfig.shapes.length);
-let currentShape = tetrominoConfig.shapes[randomIndex];
+let board;
+let currentShape;
 let freezed = false;
+let currentX = 3;
+let currentY = 0;
+let lose = false;
+let intervalRenderId;
+let intervalId;
 
+/**
+ * ゲームの初期化
+ */
 gameStartButton.addEventListener("click", () => {
+  prepareBoard();
+  prepareGameController();
   newGame();
 });
 
-function newGame() {
-  const userGameController = new UserGameController();
-  prepareBoard();
-  renderBoard();
-  let intervalRender = setInterval(renderBoard, 30);
-  let intervalId = setInterval(tick, 1000);
-}
-
-let currentX = 3;
-let currentY = 0;
-
 /**
- * ボードの初期化処理
+ * ゲームボードの準備処理
  */
 function prepareBoard() {
   entrance.classList.add("hidden");
   game.append(canvas);
+}
 
-  // clear board by filling 0
+/**
+ * ゲームコントローラーの準備処理
+ */
+const button = document.createElement("button");
+function prepareGameController() {
+  const gameController = new GameController();
+
+  const div = document.createElement("div");
+  button.innerText = "リスタート";
+  button.addEventListener("click", () => {
+    newGame();
+  });
+  div.append(button);
+  game.append(div);
+}
+
+/**
+ * ユーザーのキーボードアクションを定義
+ */
+class GameController {
+  keys = {
+    ArrowLeft: "left",
+    ArrowRight: "right",
+    ArrowDown: "down",
+    ArrowUp: "rotate",
+    Space: "drop",
+  };
+  body = document.body;
+
+  constructor() {
+    this.body.addEventListener("keydown", this.keyHandler);
+  }
+
+  destroy() {
+    this.body.removeEventListener("keydown", this.keyHandler);
+  }
+
+  keyHandler = (e) => {
+    if (typeof this.keys[e.code] === "string") {
+      keyPress(this.keys[e.code]);
+      renderBoard();
+    }
+  };
+}
+
+/**
+ * ゲームのスタート処理
+ */
+function newGame() {
+  initializeState();
+  generateNewShape();
+  renderBoard();
+  intervalRenderId = setInterval(renderBoard, 30);
+  intervalId = setInterval(tick, 1000);
+}
+
+/**
+ * 状態の初期化をする処理
+ */
+function initializeState() {
+  currentShape = [];
+  lose = false;
+  button.disabled = true;
+  clearAllIntervals(intervalId, intervalRenderId);
+  clearBoard();
+}
+
+function clearAllIntervals(intervalId, intervalRenderId) {
+  clearInterval(intervalId);
+  clearInterval(intervalRenderId);
+}
+
+/**
+ * ボードの初期化処理
+ */
+function clearBoard() {
+  board = [];
   for (let y = 0; y < boardConfig.ROWS; y++) {
     const a = [];
     for (let x = 0; x < boardConfig.COLS; x++) {
@@ -169,6 +244,12 @@ function tick() {
     currentY++;
   } else {
     freeze();
+    valid(0, 1);
+    if (lose) {
+      clearAllIntervals(intervalId, intervalRenderId);
+      button.disabled = false;
+      return;
+    }
     clearLines();
     generateNewShape();
   }
@@ -191,7 +272,6 @@ function rotate(current) {
   return newCurrent;
 }
 
-// TODO freeze処理の実装
 function valid(shiftX = 0, shiftY = 0, newCurrentShape) {
   shiftX = currentX + shiftX;
   shiftY = currentY + shiftY;
@@ -209,6 +289,10 @@ function valid(shiftX = 0, shiftY = 0, newCurrentShape) {
           x + shiftX >= boardConfig.COLS ||
           y + shiftY >= boardConfig.ROWS
         ) {
+          // 敗北時は、currentY = 0, 引数のshiftY = 1の時 かつ freezed = true
+          if (shiftY == 1 && freezed) {
+            lose = true;
+          }
           return false;
         }
       }
@@ -283,33 +367,4 @@ function keyPress(key) {
       tick();
       break;
   }
-}
-
-/**
- * ユーザーのキーボードアクションを定義
- */
-class UserGameController {
-  keys = {
-    ArrowLeft: "left",
-    ArrowRight: "right",
-    ArrowDown: "down",
-    ArrowUp: "rotate",
-    Space: "drop",
-  };
-  body = document.body;
-
-  constructor() {
-    this.body.addEventListener("keydown", this.keyHandler);
-  }
-
-  destroy() {
-    this.body.removeEventListener("keydown", this.keyHandler);
-  }
-
-  keyHandler = (e) => {
-    if (typeof this.keys[e.code] === "string") {
-      keyPress(this.keys[e.code]);
-      renderBoard();
-    }
-  };
 }
