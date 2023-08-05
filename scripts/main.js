@@ -142,6 +142,7 @@ function tick() {
     currentY++;
   } else {
     freeze();
+    clearLines();
     createNewShape();
   }
 }
@@ -194,6 +195,26 @@ function freeze() {
   }
 
   freezed = true;
+}
+
+function clearLines() {
+  for (let y = 0; y < ROWS; ++y) {
+    let ok = true;
+    for (let x = 0; x < COLS; ++x) {
+      if (!board[y][x]) {
+        ok = false;
+      }
+    }
+
+    if (ok) {
+      board.splice(y, 1);
+      const a = [];
+      for (let x = 0; x < COLS; x++) {
+        a.push(0);
+      }
+      board.unshift(a);
+    }
+  }
 }
 
 function keyPress(key) {
