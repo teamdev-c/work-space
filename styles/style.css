@@ -1,23 +1,33 @@
 /* 共通ここから */
 :root {
   /* プロトタイピング用 */
-  --bg-color-main: #fcfaf2;
-  --bg-color-sub-1: #91989f;
+  --bg-color-white: #fcfaf2;
+  --bg-color-blue: #81c7d4;
   --bg-color-sub-2: #7b90d2;
-  --font-color-main: #0c0c0c;
-  --font-color-sub-1: #fcfcfc;
+  --font-color-black: #0c0c0c;
+  --font-color-white: #fcfcfc;
   --border-color-main: #0c0c0c;
-  font-family: "Shippori Mincho", serif;
 }
 
 .layout {
-  background-color: #3a8fb7;
+  background-color: var(--bg-color-blue);
+  /* #3a8fb7 */
   display: flex;
   justify-content: center;
+  font-family: "Shippori Mincho", serif;
 }
 
 .hidden {
   display: none !important;
+}
+
+.score {
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-size: 18px;
+  padding: 12px;
+  color: var(--font-color-white);
 }
 /* 共通ここまで */
 
@@ -34,7 +44,11 @@
 }
 
 .entrance_title {
-  color: var(--font-color-sub-1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  color: var(--font-color-white);
   font-size: 48px;
   font-weight: 600;
 }
@@ -54,7 +68,7 @@
   border-radius: 6px;
   font-weight: 600;
   width: 100%;
-  background-color: var(--bg-color-main);
+  background-color: var(--bg-color-white);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -79,17 +93,17 @@
 }
 
 .explanation_header_title {
-  color: var(--font-color-sub-1);
+  color: var(--font-color-white);
   font-size: 36px;
   font-weight: 600;
 }
 
 .explanation_text {
-  color: var(--font-color-sub-1);
+  color: var(--font-color-white);
 }
 
 .fa-solid {
-  color: var(--font-color-sub-1);
+  color: var(--font-color-white);
   font-size: 30px;
   position: absolute;
   left: 0;
@@ -105,11 +119,27 @@
 }
 
 .game_canvas {
-  background-color: #91989f;
-  border: 4px solid #0c0c0c;
+  background-color: #bdc0ba;
+  /* #91989f */
+  /* #D7C4BB */
+  border: 4px solid #707c74;
 }
 
 .game_controller {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.game_controller_score {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: full;
+  font-size: 36px;
+  padding: 18px 12px;
+  background-color: var(--bg-color-white);
+  border-radius: 6px;
 }
 
 .game_controller_buttons {
@@ -124,7 +154,7 @@
   padding: 12px;
   border-radius: 6px;
   font-weight: bold;
-  background-color: var(--bg-color-main);
+  background-color: var(--bg-color-white);
   display: flex;
   justify-content: center;
   align-items: center;

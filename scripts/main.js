@@ -60,7 +60,8 @@ const tetrominoConfig = {
       [0, 0, 0, 0],
     ],
   ],
-  colors: ["cyan", "orange", "blue", "yellow", "red", "green", "purple"],
+  // 新橋, 薄香, 勿忘草, 薄黄, 桜, 若竹, 藤
+  colors: ["#0089A7", "#BF6766", "#7DB9DE", "#FAD689", "#FEDFE1", "#5DAC81", "#8B81C3"],
 };
 
 const entrance = document.getElementById("js-entrance");
@@ -102,10 +103,16 @@ function prepareBoard() {
 /**
  * ゲームコントローラーの準備処理
  */
+const gameController = document.createElement("div");
 const restartButton = document.createElement("button");
-const backToTopButton = document.createElement("button");
+const backToTopButton = restartButton.cloneNode();
+const scoreBox = gameController.cloneNode();
 function prepareGameController() {
-  const gameController = new GameController();
+  new GameKeyController();
+
+  gameController.classList.add("game_controller");
+  scoreBox.classList.add("game_controller_score");
+  scoreBox.innerHTML = "0 てん";
 
   const buttonContainer = document.createElement("div");
   buttonContainer.classList.add("game_controller_buttons");
@@ -118,18 +125,22 @@ function prepareGameController() {
 
   backToTopButton.classList.add("game_controller_buttons_button");
   backToTopButton.innerText = "とっぷへもどる";
+  backToTopButton.addEventListener("click", () => {
+    window.location.reload();
+  });
 
   buttonContainer.append(restartButton, backToTopButton);
+  gameController.append(scoreBox, buttonContainer);
 
   game.classList.add("game");
   game.append(canvas);
-  game.append(buttonContainer);
+  game.append(gameController);
 }
 
 /**
  * ユーザーのキーボードアクションを定義
  */
-class GameController {
+class GameKeyController {
   keys = {
     ArrowLeft: "left",
     ArrowRight: "right",
@@ -164,6 +175,12 @@ function newGame() {
   renderBoard();
   intervalRenderId = setInterval(renderBoard, 30);
   intervalId = setInterval(tick, 1000);
+}
+
+function endGame() {
+  initializeState();
+  game.innerHTML = "";
+  entrance.classList.remove("hidden");
 }
 
 /**
