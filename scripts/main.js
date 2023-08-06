@@ -142,26 +142,26 @@ function prepareGameController() {
  * ユーザーのキーボードアクションを定義
  */
 class GameKeyController {
-  keys = {
+  static keys = {
     ArrowLeft: "left",
     ArrowRight: "right",
     ArrowDown: "down",
     ArrowUp: "rotate",
     Space: "drop",
   };
-  body = document.body;
+  static body = document.body;
 
   constructor() {
-    this.body.addEventListener("keydown", this.keyHandler);
+    GameKeyController.body.addEventListener("keydown", GameKeyController.keyHandler);
   }
 
-  destroy() {
-    this.body.removeEventListener("keydown", this.keyHandler);
+  static destroy() {
+    GameKeyController.body.removeEventListener("keydown", GameKeyController.keyHandler);
   }
 
-  keyHandler = (e) => {
-    if (typeof this.keys[e.code] === "string") {
-      keyPress(this.keys[e.code]);
+  static keyHandler = (e) => {
+    if (typeof GameKeyController.keys[e.code] === "string") {
+      keyPress(GameKeyController.keys[e.code]);
       renderBoard();
     }
   };
@@ -278,6 +278,7 @@ function tick() {
     if (lose) {
       clearAllIntervals(intervalId, intervalRenderId);
       restartButton.disabled = false;
+      GameKeyController.destroy();
       const pastBestScore = localStorage.getItem(`bestScore`);
       if (totalScore > pastBestScore) {
         const score = document.getElementById("js-score");
@@ -364,7 +365,9 @@ function freeze() {
   freezed = true;
 }
 
-function clearLines() {
+const sleep = (ms) => new Promise((res) => setTimeout(res, ms));
+
+async function clearLines() {
   let x = 0;
   for (let y = 0; y < boardConfig.ROWS; ++y) {
     let ok = true;
@@ -375,6 +378,7 @@ function clearLines() {
     }
 
     if (ok) {
+      await sleep(100);
       board.splice(y, 1);
       const a = [];
       for (let x = 0; x < boardConfig.COLS; x++) {
@@ -385,7 +389,9 @@ function clearLines() {
     }
   }
 
-  if (x) renderNewScore(x);
+  if (x) {
+    renderNewScore(x);
+  }
 }
 
 /**
