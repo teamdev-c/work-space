@@ -60,7 +60,8 @@ const tetrominoConfig = {
       [0, 0, 0, 0],
     ],
   ],
-  colors: ["cyan", "orange", "blue", "yellow", "red", "green", "purple"],
+  // 新橋, 薄香, 勿忘草, 薄黄, 桜, 若竹, 藤
+  colors: ["#0089A7", "#BF6766", "#7DB9DE", "#FAD689", "#FEDFE1", "#5DAC81", "#8B81C3"],
 };
 
 const entrance = document.getElementById("js-entrance");
@@ -70,7 +71,7 @@ const gameStartButton = document.getElementById("js-game-start-button");
 const canvas = document.createElement("canvas");
 canvas.width = boardConfig.W;
 canvas.height = boardConfig.H;
-canvas.classList.add("canvas");
+canvas.classList.add("game_canvas");
 const ctx = canvas.getContext("2d");
 
 let board;
@@ -102,23 +103,44 @@ function prepareBoard() {
 /**
  * ゲームコントローラーの準備処理
  */
-const button = document.createElement("button");
+const gameController = document.createElement("div");
+const restartButton = document.createElement("button");
+const backToTopButton = restartButton.cloneNode();
+const scoreBox = gameController.cloneNode();
 function prepareGameController() {
-  const gameController = new GameController();
+  new GameKeyController();
 
-  const div = document.createElement("div");
-  button.innerText = "リスタート";
-  button.addEventListener("click", () => {
+  gameController.classList.add("game_controller");
+  scoreBox.classList.add("game_controller_score");
+  scoreBox.innerHTML = "0 てん";
+
+  const buttonContainer = document.createElement("div");
+  buttonContainer.classList.add("game_controller_buttons");
+
+  restartButton.classList.add("game_controller_buttons_button");
+  restartButton.innerText = "りすたーと";
+  restartButton.addEventListener("click", () => {
     newGame();
   });
-  div.append(button);
-  game.append(div);
+
+  backToTopButton.classList.add("game_controller_buttons_button");
+  backToTopButton.innerText = "とっぷへもどる";
+  backToTopButton.addEventListener("click", () => {
+    window.location.reload();
+  });
+
+  buttonContainer.append(restartButton, backToTopButton);
+  gameController.append(scoreBox, buttonContainer);
+
+  game.classList.add("game");
+  game.append(canvas);
+  game.append(gameController);
 }
 
 /**
  * ユーザーのキーボードアクションを定義
  */
-class GameController {
+class GameKeyController {
   keys = {
     ArrowLeft: "left",
     ArrowRight: "right",
@@ -155,13 +177,19 @@ function newGame() {
   intervalId = setInterval(tick, 1000);
 }
 
+function endGame() {
+  initializeState();
+  game.innerHTML = "";
+  entrance.classList.remove("hidden");
+}
+
 /**
  * 状態の初期化をする処理
  */
 function initializeState() {
   currentShape = [];
   lose = false;
-  button.disabled = true;
+  restartButton.disabled = true;
   clearAllIntervals(intervalId, intervalRenderId);
   clearBoard();
 }
@@ -247,7 +275,7 @@ function tick() {
     valid(0, 1);
     if (lose) {
       clearAllIntervals(intervalId, intervalRenderId);
-      button.disabled = false;
+      restartButton.disabled = false;
       return;
     }
     clearLines();

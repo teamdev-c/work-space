@@ -23,7 +23,7 @@
         <button id="js-back">
           <i class="fa-solid fa-arrow-left"></i>
         </button>
-        <h1 class="explanation_header_title">説明</h1>
+        <h1 class="explanation_header_title">あそびかた</h1>
       </div>
       <div class="explanation_text">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptas tempore repellat molestiae recusandae esse saepe hic unde sequi temporibus distinctio, nesciunt alias incidunt nostrum iusto voluptatibus. Nihil, quis in! Debitis.</div>
     `;
