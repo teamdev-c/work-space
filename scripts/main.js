@@ -82,6 +82,7 @@ let currentY = 0;
 let lose = false;
 let intervalRenderId;
 let intervalId;
+let totalScore;
 
 /**
  * ゲームの初期化
@@ -189,6 +190,7 @@ function endGame() {
 function initializeState() {
   currentShape = [];
   lose = false;
+  totalScore = 0;
   restartButton.disabled = true;
   clearAllIntervals(intervalId, intervalRenderId);
   clearBoard();
@@ -276,12 +278,33 @@ function tick() {
     if (lose) {
       clearAllIntervals(intervalId, intervalRenderId);
       restartButton.disabled = false;
+      const pastBestScore = localStorage.getItem(`bestScore`);
+      if (totalScore > pastBestScore) {
+        const score = document.getElementById("js-score");
+        score.innerHTML = `過去のべすとすこあ ${totalScore} てん`;
+        localStorage.setItem("bestScore", `${totalScore}`);
+      }
       return;
     }
     clearLines();
     generateNewShape();
   }
 }
+
+/**
+ * 過去のベストスコア表示を更新する処理
+ */
+function updatePastScoreView() {
+  let pastBestScore = localStorage.getItem("bestScore");
+  if (!pastBestScore) {
+    localStorage.setItem("bestScore", "0");
+    pastBestScore = localStorage.getItem("bestScore");
+  }
+  const score = document.getElementById("js-score");
+  score.innerHTML = `過去のべすとすこあ ${pastBestScore} てん`;
+}
+
+updatePastScoreView(); // ユーザーのページ訪問時
 
 /**
  * テトロミノの回転処理
@@ -342,6 +365,7 @@ function freeze() {
 }
 
 function clearLines() {
+  let x = 0;
   for (let y = 0; y < boardConfig.ROWS; ++y) {
     let ok = true;
     for (let x = 0; x < boardConfig.COLS; ++x) {
@@ -356,9 +380,31 @@ function clearLines() {
       for (let x = 0; x < boardConfig.COLS; x++) {
         a.push(0);
       }
+      x++;
       board.unshift(a);
     }
   }
+
+  if (x) renderNewScore(x);
+}
+
+/**
+ *
+ * @param {number} x
+ * @returns {number} score
+ */
+function computeScore(x) {
+  let score = 20 * (x - 1) + 10;
+  return score;
+}
+
+/**
+ * @param {number} x
+ * @returns {void}
+ */
+function renderNewScore(x) {
+  totalScore += computeScore(x);
+  scoreBox.innerHTML = `${totalScore} てん`;
 }
 
 /**

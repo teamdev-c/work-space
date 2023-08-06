@@ -1,9 +1,7 @@
 /* 共通ここから */
 :root {
-  /* プロトタイピング用 */
   --bg-color-white: #fcfaf2;
   --bg-color-blue: #81c7d4;
-  --bg-color-sub-2: #7b90d2;
   --font-color-black: #0c0c0c;
   --font-color-white: #fcfcfc;
   --border-color-main: #0c0c0c;
@@ -11,7 +9,6 @@
 
 .layout {
   background-color: var(--bg-color-blue);
-  /* #3a8fb7 */
   display: flex;
   justify-content: center;
   font-family: "Shippori Mincho", serif;
@@ -28,6 +25,7 @@
   font-size: 18px;
   padding: 12px;
   color: var(--font-color-white);
+  font-weight: 600;
 }
 /* 共通ここまで */
 
@@ -120,8 +118,6 @@
 
 .game_canvas {
   background-color: #bdc0ba;
-  /* #91989f */
-  /* #D7C4BB */
   border: 4px solid #707c74;
 }
 
