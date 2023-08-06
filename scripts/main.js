@@ -291,12 +291,20 @@ function tick() {
   }
 }
 
+/**
+ * 過去のベストスコア表示を更新する処理
+ */
 function updatePastScoreView() {
+  let pastBestScore = localStorage.getItem("bestScore");
+  if (!pastBestScore) {
+    localStorage.setItem("bestScore", "0");
+    pastBestScore = localStorage.getItem("bestScore");
+  }
   const score = document.getElementById("js-score");
-  const pastBestScore = localStorage.getItem("bestScore");
   score.innerHTML = `過去のべすとすこあ ${pastBestScore} てん`;
 }
-updatePastScoreView();
+
+updatePastScoreView(); // ユーザーのページ訪問時
 
 /**
  * テトロミノの回転処理
