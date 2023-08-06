@@ -278,12 +278,25 @@ function tick() {
     if (lose) {
       clearAllIntervals(intervalId, intervalRenderId);
       restartButton.disabled = false;
+      const pastBestScore = localStorage.getItem(`bestScore`);
+      if (totalScore > pastBestScore) {
+        const score = document.getElementById("js-score");
+        score.innerHTML = `過去のべすとすこあ ${totalScore} てん`;
+        localStorage.setItem("bestScore", `${totalScore}`);
+      }
       return;
     }
     clearLines();
     generateNewShape();
   }
 }
+
+function updatePastScoreView() {
+  const score = document.getElementById("js-score");
+  const pastBestScore = localStorage.getItem("bestScore");
+  score.innerHTML = `過去のべすとすこあ ${pastBestScore} てん`;
+}
+updatePastScoreView();
 
 /**
  * テトロミノの回転処理
