@@ -149,10 +149,6 @@ class GameKeyController {
   };
   static body = document.body;
 
-  constructor() {
-    GameKeyController.attach();
-  }
-
   static attach() {
     GameKeyController.body.addEventListener("keydown", GameKeyController.keyHandler);
   }
@@ -164,7 +160,6 @@ class GameKeyController {
   static keyHandler = (e) => {
     if (typeof GameKeyController.keys[e.code] === "string") {
       keyPress(GameKeyController.keys[e.code]);
-      renderBoard();
     }
   };
 }
@@ -176,7 +171,6 @@ function newGame() {
   initializeState();
   GameKeyController.attach();
   generateNewShape();
-  renderBoard();
   intervalRenderId = setInterval(renderBoard, 30);
   intervalId = setInterval(tick, 1000);
 }
