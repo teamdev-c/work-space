@@ -90,6 +90,7 @@ let totalScore;
 gameStartButton.addEventListener("click", () => {
   prepareBoard();
   prepareGameController();
+  GameKeyController.attach();
   newGame();
 });
 
@@ -98,7 +99,6 @@ gameStartButton.addEventListener("click", () => {
  */
 function prepareBoard() {
   entrance.classList.add("hidden");
-  game.append(canvas);
 }
 
 /**
@@ -109,8 +109,6 @@ const restartButton = document.createElement("button");
 const backToTopButton = restartButton.cloneNode();
 const scoreBox = gameController.cloneNode();
 function prepareGameController() {
-  new GameKeyController();
-
   gameController.classList.add("game_controller");
   scoreBox.classList.add("game_controller_score");
   scoreBox.innerHTML = "0 てん";
@@ -152,6 +150,10 @@ class GameKeyController {
   static body = document.body;
 
   constructor() {
+    GameKeyController.attach();
+  }
+
+  static attach() {
     GameKeyController.body.addEventListener("keydown", GameKeyController.keyHandler);
   }
 
@@ -172,6 +174,7 @@ class GameKeyController {
  */
 function newGame() {
   initializeState();
+  GameKeyController.attach();
   generateNewShape();
   renderBoard();
   intervalRenderId = setInterval(renderBoard, 30);
