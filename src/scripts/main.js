@@ -61,7 +61,24 @@ const tetrominoConfig = {
     ],
   ],
   // 新橋, 薄香, 勿忘草, 薄黄, 桜, 若竹, 藤
-  colors: ["#0089A7", "#BF6766", "#7DB9DE", "#FAD689", "#FEDFE1", "#5DAC81", "#8B81C3"],
+  colors: [
+    "#0089A7",
+    "#BF6766",
+    "#7DB9DE",
+    "#FAD689",
+    "#FEDFE1",
+    "#5DAC81",
+    "#8B81C3",
+  ],
+  translucentColors: [
+    "rgba(0,137,167,0.2)",
+    "rgba(191,103,102,0.2)",
+    "rgba(125,185,222,0.2)",
+    "rgba(250,214,137,0.2)",
+    "rgba(254,223,225,0.2)",
+    "rgba(93,172,129,0.2)",
+    "rgba(139,129,195,0.2)",
+  ],
 };
 
 const entrance = document.getElementById("js-entrance");
@@ -150,11 +167,17 @@ class GameKeyController {
   static body = document.body;
 
   static attach() {
-    GameKeyController.body.addEventListener("keydown", GameKeyController.keyHandler);
+    GameKeyController.body.addEventListener(
+      "keydown",
+      GameKeyController.keyHandler
+    );
   }
 
   static destroy() {
-    GameKeyController.body.removeEventListener("keydown", GameKeyController.keyHandler);
+    GameKeyController.body.removeEventListener(
+      "keydown",
+      GameKeyController.keyHandler
+    );
   }
 
   static keyHandler = (e) => {
@@ -218,7 +241,7 @@ function clearBoard() {
 function renderBoard() {
   ctx.clearRect(0, 0, boardConfig.W, boardConfig.H);
 
-  ctx.strokeStyle = "black";
+  ctx.strokeStyle = "dimgray";
   for (let y = 0; y < boardConfig.ROWS; y++) {
     for (let x = 0; x < boardConfig.COLS; x++) {
       if (board[y][x]) {
@@ -233,6 +256,21 @@ function renderBoard() {
       if (currentShape[y][x]) {
         ctx.fillStyle = tetrominoConfig.colors[currentShape[y][x] - 1];
         drawBlock(x + currentX, y + currentY);
+      }
+    }
+  }
+
+  // TODO:別のcanvas要素にして透明度を下げないとstrokeStyleが目立つ
+  let shiftY = 0;
+  while (valid(0, shiftY + 1)) {
+    shiftY++;
+  }
+  for (let y = 0; y < 4; y++) {
+    for (let x = 0; x < 4; x++) {
+      if (currentShape[y][x]) {
+        ctx.fillStyle =
+          tetrominoConfig.translucentColors[currentShape[y][x] - 1];
+        drawBlock(x + currentX, y + currentY + shiftY);
       }
     }
   }
