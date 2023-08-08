@@ -1,14 +1,41 @@
+import { tetrominoConfig } from "../config";
+
 export class ShapeModel {
   currentShape;
   currentX;
   currentY;
-  freezed;
+  isFreezed;
 
   constructor() {
     this.currentShape = [];
     this.currentX = 3;
     this.currentY = 0;
-    this.freezed = false;
+    this.isFreezed = false;
+  }
+
+  createNewShape() {
+    const randomIndex = Math.floor(Math.random() * tetrominoConfig.shapes.length);
+    const newShape = tetrominoConfig.shapes[randomIndex];
+    this.updateCurrentShape(newShape);
+    this.resetIsFreezed();
+    this.resetCurrentXY();
+  }
+
+  /**
+   * テトロミノを回転したものを返す処理
+   * @param {number[][]} current
+   * @returns{number[][]} newCurrent
+   */
+  rotate(current) {
+    let newCurrent = [];
+    for (let y = 0; y < 4; ++y) {
+      newCurrent[y] = [];
+      for (let x = 0; x < 4; ++x) {
+        newCurrent[y][x] = current[3 - x][y];
+      }
+    }
+
+    return newCurrent;
   }
 
   getCurrentShape() {
@@ -48,15 +75,15 @@ export class ShapeModel {
     this.currentY = 0;
   }
 
-  getFreezed() {
-    return this.freezed;
+  getIsFreezed() {
+    return this.isFreezed;
   }
 
-  makeFreezed() {
-    this.freezed = true;
+  setIsFreezed() {
+    this.isFreezed = true;
   }
 
-  resetFreezed() {
-    this.freezed = false;
+  resetIsFreezed() {
+    this.isFreezed = false;
   }
 }

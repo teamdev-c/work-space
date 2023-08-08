@@ -8,6 +8,9 @@ export class ScoreView {
   static prepare() {
     ScoreView.scoreBox.classList.add("game_controller_score");
     ScoreView.scoreBox.innerHTML = "0 てん";
+    return {
+      scoreBox: ScoreView.scoreBox,
+    };
   }
   /**
    * @param {number} totalScore
