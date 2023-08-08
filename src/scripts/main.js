@@ -1,23 +1,19 @@
 import { boardConfig, tetrominoConfig } from "./config";
 import { BoardView, ScoreView, canvas } from "./views";
 import { sleep } from "./utils";
-import { ScoreModel, JudgeModel, ShapeModel } from "./models";
+import { ScoreModel, JudgeModel, ShapeModel, BoardModel } from "./models";
 
 // const entrance = document.getElementById("js-entrance");
 const game = document.getElementById("js-game");
 const gameStartButton = document.getElementById("js-game-start-button");
 
-let board;
-let currentShape;
-let freezed = false;
-let currentX = 3;
-let currentY = 0;
 let intervalRenderId;
 let intervalId;
 
 const shapeModel = new ShapeModel();
 const scoreModel = new ScoreModel();
 const judgeModel = new JudgeModel();
+const boardModel = new BoardModel();
 
 /**
  * ゲームの初期化
@@ -95,10 +91,14 @@ class GameKeyController {
  */
 function newGame() {
   initializeState();
+  initializeView();
   GameKeyController.attach();
   generateNewShape();
   intervalRenderId = setInterval(() => {
-    // let currentShape = shapeModel.getCurrent()
+    let board = boardModel.getBoard();
+    let currentShape = shapeModel.getCurrentShape();
+    let currentX = shapeModel.getCurrentX();
+    let currentY = shapeModel.getCurrentY();
     BoardView.render(board, currentShape, currentX, currentY);
   }, 30);
   intervalId = setInterval(tick, 1000);
@@ -108,14 +108,16 @@ function newGame() {
  * 状態の初期化をする処理
  */
 function initializeState() {
-  currentShape = [];
-  // shapeModel.resetCurrent()
+  shapeModel.resetCurrentShape();
   judgeModel.resetLose();
   scoreModel.resetTotal();
-  renderNewScore(0);
   restartButton.disabled = true;
   clearAllIntervals(intervalId, intervalRenderId);
-  clearBoard();
+  boardModel.resetBoard();
+}
+
+function initializeView() {
+  ScoreView.update(scoreModel.getTotal());
 }
 
 function clearAllIntervals(intervalId, intervalRenderId) {
@@ -124,31 +126,15 @@ function clearAllIntervals(intervalId, intervalRenderId) {
 }
 
 /**
- * ボードの初期化処理
- */
-function clearBoard() {
-  board = [];
-  for (let y = 0; y < boardConfig.ROWS; y++) {
-    const a = [];
-    for (let x = 0; x < boardConfig.COLS; x++) {
-      a.push(0);
-    }
-    board.push(a);
-  }
-}
-
-/**
  * ランダムに新しいテトロミノを生成する処理
  */
 function generateNewShape() {
   const randomIndex = Math.floor(Math.random() * tetrominoConfig.shapes.length);
   const newShape = tetrominoConfig.shapes[randomIndex];
-  // shapeModel.updateCurrent(newShape)
-  currentShape = newShape;
+  shapeModel.updateCurrentShape(newShape);
 
-  freezed = false;
-  currentX = 3;
-  currentY = 0;
+  shapeModel.resetFreezed();
+  shapeModel.resetCurrentXY();
 }
 
 /**
@@ -156,9 +142,9 @@ function generateNewShape() {
  */
 function tick() {
   if (valid(0, 1)) {
-    currentY++;
+    shapeModel.addCurrentY();
   } else {
-    // let currentShape = shapeModel.getCurrent()
+    let currentShape = shapeModel.getCurrentShape();
     freeze(currentShape);
     valid(0, 1);
     let lose = judgeModel.getLose();
@@ -204,8 +190,13 @@ function rotate(current) {
 }
 
 function valid(shiftX = 0, shiftY = 0, newCurrentShape) {
+  let currentX = shapeModel.getCurrentX();
+  let currentY = shapeModel.getCurrentY();
   shiftX = currentX + shiftX;
   shiftY = currentY + shiftY;
+
+  let currentShape = shapeModel.getCurrentShape();
+  let board = boardModel.getBoard();
   newCurrentShape = newCurrentShape || currentShape;
 
   for (let y = 0; y < 4; ++y) {
@@ -221,6 +212,7 @@ function valid(shiftX = 0, shiftY = 0, newCurrentShape) {
           y + shiftY >= boardConfig.ROWS
         ) {
           // 敗北時は、currentY = 0, 引数のshiftY = 1の時 かつ freezed = true
+          const freezed = shapeModel.getFreezed();
           if (shiftY == 1 && freezed) {
             judgeModel.makeLoser();
           }
@@ -233,6 +225,9 @@ function valid(shiftX = 0, shiftY = 0, newCurrentShape) {
 }
 
 function freeze(currentShape) {
+  const currentX = shapeModel.getCurrentX();
+  const currentY = shapeModel.getCurrentY();
+  const board = boardModel.getBoard();
   for (let y = 0; y < 4; ++y) {
     for (let x = 0; x < 4; ++x) {
       if (currentShape[y][x]) {
@@ -241,10 +236,11 @@ function freeze(currentShape) {
     }
   }
 
-  freezed = true;
+  shapeModel.makeFreezed();
 }
 
 async function clearLines() {
+  let board = boardModel.getBoard();
   let x = 0;
   for (let y = 0; y < boardConfig.ROWS; ++y) {
     let ok = true;
@@ -290,30 +286,29 @@ function keyPress(key) {
   switch (key) {
     case "left":
       if (valid(-1)) {
-        currentX--;
+        shapeModel.subtractCurrentX();
       }
       break;
     case "right":
       if (valid(1)) {
-        currentX++;
+        shapeModel.addCurrentX();
       }
       break;
     case "down":
       if (valid(0, 1)) {
-        currentY++;
+        shapeModel.addCurrentY();
       }
       break;
     case "rotate":
-      // let currentShape = shapeModel.getCurrent()
-      let newCurrentShape = rotate(currentShape);
+      const currentShape = shapeModel.getCurrentShape();
+      const newCurrentShape = rotate(currentShape);
       if (valid(0, 0, newCurrentShape)) {
-        // shapeModel.updateCurrent(newCurrentShape)
-        currentShape = newCurrentShape;
+        shapeModel.updateCurrentShape(newCurrentShape);
       }
       break;
     case "drop":
       while (valid(0, 1)) {
-        currentY++;
+        shapeModel.addCurrentY();
       }
       tick();
       break;

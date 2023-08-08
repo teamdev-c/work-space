@@ -49,7 +49,7 @@ export class BoardView {
    * @param {number} currentX
    * @param {number} currentY
    */
-  static renderEstimatedPos(currentShape, currentX, currentY) {
+  static renderEstimatedFallPos(currentShape, currentX, currentY) {
     // TODO:別のcanvas要素にして透明度を下げないとstrokeStyleが目立つ
 
     // let shiftY = 0;

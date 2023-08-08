@@ -11,13 +11,13 @@ export class ScoreModel {
 
   resetTotal() {
     this.total = 0;
+    return this.total;
   }
   /**
    * @param {number} x
    * @returns {number} score
    */
   computeTotal(x) {
-    if (x == 0) return x;
     let score = 20 * (x - 1) + 10;
     this.total += score;
     console.log(this.total);
