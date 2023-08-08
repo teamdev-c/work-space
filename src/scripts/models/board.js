@@ -1,5 +1,5 @@
 import { boardConfig } from "../config";
-import { sleep } from "../utils";
+import { makeZeroArray, sleep } from "../utils";
 
 export class BoardModel {
   board;
@@ -35,12 +35,9 @@ export class BoardModel {
       if (ok) {
         await sleep(100);
         this.board.splice(y, 1);
-        const a = [];
-        for (let x = 0; x < boardConfig.COLS; x++) {
-          a.push(0);
-        }
+        const arr = makeZeroArray(boardConfig.COLS);
+        this.board.unshift(arr);
         rows++;
-        this.board.unshift(a);
       }
     }
 
@@ -53,11 +50,8 @@ export class BoardModel {
   resetBoard() {
     this.board = [];
     for (let y = 0; y < boardConfig.ROWS; y++) {
-      const a = [];
-      for (let x = 0; x < boardConfig.COLS; x++) {
-        a.push(0);
-      }
-      this.board.push(a);
+      const arr = makeZeroArray(boardConfig.COLS);
+      this.board.push(arr);
     }
   }
 }

@@ -28,6 +28,7 @@ export class BoardView {
     ctx.clearRect(0, 0, boardConfig.W, boardConfig.H);
 
     ctx.strokeStyle = "dimgray";
+    // ctx.strokeStyle = "#4d4d4d"; これ良さげかも？
     for (let y = 0; y < boardConfig.ROWS; y++) {
       for (let x = 0; x < boardConfig.COLS; x++) {
         if (board[y][x]) {
@@ -55,6 +56,7 @@ export class BoardView {
    */
   static renderEstimatedFallingPos(currentShape, currentX, currentY, shiftY) {
     // TODO:別のcanvas要素にして透明度を下げないとstrokeStyleが目立つ
+    ctx.strokeStyle = "dimgray";
     for (let y = 0; y < 4; y++) {
       for (let x = 0; x < 4; x++) {
         if (currentShape[y][x]) {
