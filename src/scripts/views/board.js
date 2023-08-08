@@ -1,6 +1,8 @@
 import { boardConfig, tetrominoConfig } from "../config";
 import { BlockView } from "./block";
-import { ctx, canvas } from "./canvas";
+
+const canvas = document.createElement("canvas");
+export const ctx = canvas.getContext("2d");
 
 export class BoardView {
   static entrance = document.getElementById("js-entrance");
@@ -12,6 +14,7 @@ export class BoardView {
     canvas.height = boardConfig.H;
     canvas.classList.add("game_canvas");
     BoardView.entrance.classList.add("hidden");
+    return { canvas };
   }
 
   /**

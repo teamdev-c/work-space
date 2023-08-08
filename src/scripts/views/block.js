@@ -1,5 +1,5 @@
 import { tetrominoConfig } from "../config";
-import { ctx } from "./canvas";
+import { ctx } from "./board";
 
 export class BlockView {
   /**

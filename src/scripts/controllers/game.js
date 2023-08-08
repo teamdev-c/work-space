@@ -1,6 +1,6 @@
 import { boardConfig } from "../config";
 import { BoardModel, JudgeModel, ScoreModel, ShapeModel } from "../models";
-import { BoardView, ScoreView, canvas, GameHandlerView } from "../views";
+import { BoardView, ScoreView, GameHandlerView } from "../views";
 
 export class GameController {
   intervalId;
@@ -22,7 +22,7 @@ export class GameController {
   gameStart() {
     const gameStartButton = document.getElementById("js-game-start-button");
     gameStartButton.addEventListener("click", () => {
-      this.prepareGameControllerView();
+      this.prepareGameView();
       this.newGame();
     });
   }
@@ -67,15 +67,11 @@ export class GameController {
     clearInterval(intervalRenderId);
   }
 
-  prepareGameControllerView() {
-    BoardView.prepare();
-
-    const game = document.getElementById("js-game");
-    const gameController = document.createElement("div");
-    gameController.classList.add("game_controller");
-
+  prepareGameView() {
+    const { canvas } = BoardView.prepare();
     const { scoreBox } = ScoreView.prepare();
     const { buttonContainer, restartButton, backToTopButton } = GameHandlerView.prepare();
+
     restartButton.addEventListener("click", () => {
       this.newGame();
     });
@@ -84,6 +80,9 @@ export class GameController {
       window.location.reload();
     });
 
+    const game = document.getElementById("js-game");
+    const gameController = document.createElement("div");
+    gameController.classList.add("game_controller");
     gameController.append(scoreBox, buttonContainer);
     game.classList.add("game");
     game.append(canvas);
