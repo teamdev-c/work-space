@@ -1,7 +1,6 @@
 import { tetrominoConfig } from "../config";
 import { ctx } from "./canvas";
 
-//TODO: BlockかShapeかよう分からんくなる
 export class BlockView {
   /**
    * ブロックを描画する処理

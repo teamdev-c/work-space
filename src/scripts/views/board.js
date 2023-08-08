@@ -1,8 +1,9 @@
 import { boardConfig, tetrominoConfig } from "../config";
 import { BlockView } from "./block";
-import { ctx, canvas, entrance } from "./canvas";
+import { ctx, canvas } from "./canvas";
 
 export class BoardView {
+  static entrance = document.getElementById("js-entrance");
   /**
    * ゲームボードの準備処理
    */
@@ -10,7 +11,7 @@ export class BoardView {
     canvas.width = boardConfig.W;
     canvas.height = boardConfig.H;
     canvas.classList.add("game_canvas");
-    entrance.classList.add("hidden");
+    BoardView.entrance.classList.add("hidden");
   }
 
   /**
@@ -20,7 +21,7 @@ export class BoardView {
    * @param {number} currentX
    * @param {number} currentY
    */
-  static render(board, currentShape, currentX, currentY) {
+  static renderBase(board, currentShape, currentX, currentY) {
     ctx.clearRect(0, 0, boardConfig.W, boardConfig.H);
 
     ctx.strokeStyle = "dimgray";
@@ -49,13 +50,8 @@ export class BoardView {
    * @param {number} currentX
    * @param {number} currentY
    */
-  static renderEstimatedFallPos(currentShape, currentX, currentY) {
+  static renderEstimatedFallingPos(currentShape, currentX, currentY, shiftY) {
     // TODO:別のcanvas要素にして透明度を下げないとstrokeStyleが目立つ
-
-    // let shiftY = 0;
-    // while (valid(0, shiftY + 1)) {
-    //   shiftY++;
-    // }
     for (let y = 0; y < 4; y++) {
       for (let x = 0; x < 4; x++) {
         if (currentShape[y][x]) {

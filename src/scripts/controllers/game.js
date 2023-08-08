@@ -22,15 +22,15 @@ export class GameController {
   gameStart() {
     const gameStartButton = document.getElementById("js-game-start-button");
     gameStartButton.addEventListener("click", () => {
-      BoardView.prepare();
       this.prepareGameControllerView();
       this.newGame();
     });
   }
 
   newGame() {
-    this.initializeState();
-    this.initializeView();
+    this.initializeStates();
+    this.initializeViews();
+    this.clearAllIntervals(this.intervalId, this.intervalRenderId);
     this.keyEventAttach();
     this.shapeModel.createNewShape();
     this.intervalRenderId = setInterval(() => {
@@ -38,22 +38,27 @@ export class GameController {
       const currentShape = this.shapeModel.getCurrentShape();
       const currentX = this.shapeModel.getCurrentX();
       const currentY = this.shapeModel.getCurrentY();
-      BoardView.render(board, currentShape, currentX, currentY);
+
+      BoardView.renderBase(board, currentShape, currentX, currentY);
+      let shiftY = 0;
+      while (this.valid(0, shiftY + 1)) {
+        shiftY++;
+      }
+      BoardView.renderEstimatedFallingPos(currentShape, currentX, currentY, shiftY);
     }, 30);
     // 参考: https://engineering.webstudio168.jp/2022/04/bind-method/
     this.intervalId = setInterval(this.tick.bind(this), 1000);
   }
 
-  initializeState() {
+  initializeStates() {
     this.shapeModel.resetCurrentShape();
     this.judgeModel.resetLose();
     this.scoreModel.resetTotal();
     this.boardModel.resetBoard();
-    GameHandlerView.restartButtonDisabled();
-    this.clearAllIntervals(this.intervalId, this.intervalRenderId);
   }
 
-  initializeView() {
+  initializeViews() {
+    GameHandlerView.restartButtonDisabled();
     ScoreView.update(this.scoreModel.getTotal());
   }
 
@@ -63,6 +68,8 @@ export class GameController {
   }
 
   prepareGameControllerView() {
+    BoardView.prepare();
+
     const game = document.getElementById("js-game");
     const gameController = document.createElement("div");
     gameController.classList.add("game_controller");

@@ -1,8 +1,7 @@
-import { GameController } from "./controllers";
-import { View } from "./explanation";
+import { GameController, ExplanationController } from "./controllers";
 
 function initApplication() {
-  const explanationController = new View(); //TODO
+  const explanationController = new ExplanationController();
   const gameController = new GameController();
 }
 

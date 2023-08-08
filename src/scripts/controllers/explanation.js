@@ -1,7 +1,4 @@
-/**
- * 説明画面のレンダリング
- */
-export class View {
+export class ExplanationController {
   entrance = document.getElementById("js-entrance");
   explanation = document.getElementById("js-explanation");
   explanationButton = document.getElementById("js-explanation-button");
@@ -22,7 +19,11 @@ export class View {
         </button>
         <h1 class="explanation_header_title">あそびかた</h1>
       </div>
-      <div class="explanation_text">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptas tempore repellat molestiae recusandae esse saepe hic unde sequi temporibus distinctio, nesciunt alias incidunt nostrum iusto voluptatibus. Nihil, quis in! Debitis.</div>
+      <div class="explanation_text">
+        <ul>
+          <li>うんぬんかんぬん</li>
+        </ul>
+      </div>
     `;
 
     const backButton = document.getElementById("js-back");
