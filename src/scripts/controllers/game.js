@@ -1,6 +1,7 @@
 import { boardConfig } from "../config";
 import { BoardModel, JudgeModel, ScoreModel, ShapeModel } from "../models";
 import { BoardView, ScoreView, GameHandlerView } from "../views";
+import { GameView } from "../views/game";
 
 export class GameController {
   intervalId;
@@ -59,7 +60,7 @@ export class GameController {
 
   initializeViews() {
     GameHandlerView.restartButtonDisabled();
-    ScoreView.update(this.scoreModel.getTotal());
+    ScoreView.updateScore(this.scoreModel.getTotal());
   }
 
   clearAllIntervals(intervalId, intervalRenderId) {
@@ -68,25 +69,13 @@ export class GameController {
   }
 
   prepareGameView() {
-    const { canvas } = BoardView.prepare();
-    const { scoreBox } = ScoreView.prepare();
-    const { buttonContainer, restartButton, backToTopButton } = GameHandlerView.prepare();
-
+    const { restartButton, backToTopButton } = GameView.prepare();
     restartButton.addEventListener("click", () => {
       this.newGame();
     });
-
     backToTopButton.addEventListener("click", () => {
       window.location.reload();
     });
-
-    const game = document.getElementById("js-game");
-    const gameController = document.createElement("div");
-    gameController.classList.add("game_controller");
-    gameController.append(scoreBox, buttonContainer);
-    game.classList.add("game");
-    game.append(canvas);
-    game.append(gameController);
   }
 
   freeze() {
@@ -144,8 +133,8 @@ export class GameController {
         GameHandlerView.restartButtonNotDisabled();
         this.keyEventDestroy();
         let totalScore = this.scoreModel.getTotal();
-        let pastBestScore = this.scoreModel.updatePastBest(totalScore);
-        ScoreView.updatePastBest(pastBestScore);
+        let pastBestScore = this.scoreModel.updatePastBestScore(totalScore);
+        ScoreView.updatePastBestScore(pastBestScore);
         return;
       }
       const rows = await this.boardModel.clearLines();
@@ -158,12 +147,12 @@ export class GameController {
 
   renderNewScore(rows) {
     const computedTotalScore = this.scoreModel.computeTotal(rows);
-    ScoreView.update(computedTotalScore);
+    ScoreView.updateScore(computedTotalScore);
   }
 
   updatePastScore() {
     const pastBestScore = this.scoreModel.getPastBest();
-    ScoreView.updatePastBest(pastBestScore);
+    ScoreView.updatePastBestScore(pastBestScore);
   }
 
   // ゲームのキーボードアクションを定義

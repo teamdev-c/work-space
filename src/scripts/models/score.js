@@ -41,7 +41,7 @@ export class ScoreModel {
    * @param {number} totalScore
    * @returns {number} totalScore or pastBestScore
    */
-  updatePastBest(totalScore) {
+  updatePastBestScore(totalScore) {
     const pastBestScore = localStorage.getItem(`bestScore`);
     if (totalScore > pastBestScore) {
       localStorage.setItem("bestScore", `${totalScore}`);

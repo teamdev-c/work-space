@@ -1,28 +1,26 @@
-export const scoreBox = document.createElement("div");
-export const pastBestScoreBox = document.getElementById("js-score");
-
 export class ScoreView {
-  static scoreBox = scoreBox;
-  static pastBestScoreBox = pastBestScoreBox;
-
   static prepare() {
-    ScoreView.scoreBox.classList.add("game_controller_score");
-    ScoreView.scoreBox.innerHTML = "0 てん";
+    const scoreContainer = document.createElement("div");
+    scoreContainer.classList.add("game_controller_score", "js-score-container");
+    scoreContainer.innerHTML = "0 てん";
     return {
-      scoreBox: ScoreView.scoreBox,
+      scoreContainer,
     };
   }
+
   /**
    * @param {number} totalScore
    */
-  static update(totalScore) {
-    ScoreView.scoreBox.innerHTML = `${totalScore} てん`;
+  static updateScore(totalScore) {
+    const scoreContainer = document.querySelector(".js-score-container");
+    scoreContainer.innerHTML = `${totalScore} てん`;
   }
 
   /**
    * @param {number} pastBestScore
    */
-  static updatePastBest(pastBestScore) {
-    ScoreView.pastBestScoreBox.innerHTML = `過去のべすとすこあ ${pastBestScore} てん`;
+  static updatePastBestScore(pastBestScore) {
+    const pastBestScoreContainer = document.getElementById("js-score");
+    pastBestScoreContainer.innerHTML = `過去のべすとすこあ ${pastBestScore} てん`;
   }
 }

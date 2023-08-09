@@ -1,2 +1,2 @@
 export * from "./sleep";
-export * from "./makeZeroArray";
+export * from "./makeArrayOfZero";

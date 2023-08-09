@@ -29,7 +29,7 @@ const gameController = document.createElement("div");
 
 function prepareGameControllerView() {
   gameController.classList.add("game_controller");
-  const { scoreBox } = ScoreView.prepare();
+  const { scoreContainer } = ScoreView.prepare();
   const { buttonContainer, restartButton, backToTopButton } = GameHandlerView.prepare();
   restartButton.addEventListener("click", () => {
     newGame();
@@ -39,7 +39,7 @@ function prepareGameControllerView() {
     window.location.reload();
   });
 
-  gameController.append(scoreBox, buttonContainer);
+  gameController.append(scoreContainer, buttonContainer);
   game.classList.add("game");
   game.append(canvas);
   game.append(gameController);
@@ -126,8 +126,8 @@ async function tick() {
       restartButton.disabled = false;
       GameKeyController.destroy();
       let totalScore = scoreModel.getTotal();
-      let pastBestScore = scoreModel.updatePastBest(totalScore);
-      ScoreView.updatePastBest(pastBestScore);
+      let pastBestScore = scoreModel.updatePastBestScore(totalScore);
+      ScoreView.updatePastBestScore(pastBestScore);
       return;
     }
     const rows = await boardModel.clearLines();
@@ -143,7 +143,7 @@ async function tick() {
  */
 function updatePastScoreView() {
   let pastBestScore = scoreModel.getPastBest();
-  ScoreView.updatePastBest(pastBestScore);
+  ScoreView.updatePastBestScore(pastBestScore);
 }
 
 updatePastScoreView(); // ユーザーのページ訪問時
