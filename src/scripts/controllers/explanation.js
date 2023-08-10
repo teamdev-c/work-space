@@ -20,9 +20,27 @@ export class ExplanationController {
         <h1 class="explanation_header_title">あそびかた</h1>
       </div>
       <div class="explanation_text">
-        <ul>
-          <li>うんぬんかんぬん</li>
+        <div>
+        <p>テトロミノは</p>
+          <ul class="explanation_text_list">
+            <li>右矢印キー = 右方向へ</li>
+            <li>左矢印キー = 左方向へ</li>
+            <li>下矢印キー = 下方向へ</li>
+            <li>上矢印キー = 回転</li>
+            <li>スペース = 一気に落下</li>
+          </ul>
+        <p>というように操作できます。</p>
+        </div>
+      <div>
+      <p>スコアは、</p>
+        <ul class="explanation_text_list">
+          <li>1列消すと10点</li>
+          <li>2列消すと30点</li>
+          <li>3列消すと50点</li>
+          <li>4列消すと70点</li>
         </ul>
+      <p>というように加算されます。</p>
+      </div>
       </div>
     `;
 
