@@ -98,18 +98,17 @@
 
 .explanation_text {
   color: var(--font-color-white);
-}
-
-.explanation_text_list {
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
 
-li {
+.explanation_text_list {
   list-style: inside;
-  padding-left:1em;
-  text-indent:-1em;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 8px 0px;
 }
 
 .fa-solid {
