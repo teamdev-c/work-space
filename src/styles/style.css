@@ -18,15 +18,6 @@
   display: none !important;
 }
 
-.score {
-  position: absolute;
-  top: 0;
-  right: 0;
-  font-size: 18px;
-  padding: 12px;
-  color: var(--font-color-white);
-  font-weight: 600;
-}
 /* 共通ここまで */
 
 /* エントランス画面ここから */
@@ -111,7 +102,7 @@
   margin: 8px 0px;
 }
 
-.fa-solid {
+.fa-arrow-left {
   color: var(--font-color-white);
   font-size: 30px;
   position: absolute;
@@ -171,3 +162,33 @@
   background-color: #fcfaf2c5;
 }
 /* ゲーム画面ここまで */
+
+.userinfo {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 0px 12px;
+}
+
+.userinfo_sound-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50px;
+  height: 50px;
+}
+
+.userinfo_past-best-score {
+  font-size: 18px;
+  color: var(--font-color-white);
+  font-weight: 600;
+}
+
+.fa-volume-xmark,
+.fa-volume-high {
+  color: var(--font-color-white);
+  font-size: 24px;
+}
