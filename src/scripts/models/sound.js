@@ -1,21 +1,21 @@
 export class SoundModel {
   #isAllowed;
   #bgm;
-  #soundEffect;
-  #disappearEffect;
+  #landEffect;
+  #clearEffect;
 
   constructor() {
     this.#isAllowed = false;
     this.#bgm = new Audio("/bgm.mp3");
-    this.#soundEffect = new Audio("/block.mp3");
-    this.#disappearEffect = new Audio("/disappear.mp3");
+    this.#landEffect = new Audio("/block.mp3");
+    this.#clearEffect = new Audio("/disappear.mp3");
   }
 
   getIsAllowed() {
     return this.#isAllowed;
   }
 
-  updateSound() {
+  updateIsAllowed() {
     this.#isAllowed = !this.#isAllowed;
   }
 
@@ -29,13 +29,13 @@ export class SoundModel {
     this.#bgm.pause();
   }
 
-  playSoundEffect() {
-    this.#soundEffect.play();
-    this.#soundEffect.volume = 1.0;
+  playLandEffect() {
+    this.#landEffect.play();
+    this.#landEffect.volume = 1.0;
   }
 
-  playDisappearEffect() {
-    this.#disappearEffect.play();
-    this.#disappearEffect.volume = 1.0;
+  playClearEffect() {
+    this.#clearEffect.play();
+    this.#clearEffect.volume = 1.0;
   }
 }

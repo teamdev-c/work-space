@@ -33,7 +33,7 @@ export class GameController {
 
   playSound() {
     document.getElementById("js-audio-button").addEventListener("click", () => {
-      this.soundModel.updateSound();
+      this.soundModel.updateIsAllowed();
       const soundIsAllowed = this.soundModel.getIsAllowed();
       if (soundIsAllowed) {
         this.soundModel.playBgm();
@@ -102,7 +102,7 @@ export class GameController {
     this.boardModel.appendCurrentShapeToBoard(currentShape, currentX, currentY);
     this.shapeModel.setIsFreezed();
     const soundIsAllowed = this.soundModel.getIsAllowed();
-    if (soundIsAllowed) this.soundModel.playSoundEffect();
+    if (soundIsAllowed) this.soundModel.playLandEffect();
   }
 
   valid(shiftX = 0, shiftY = 0, newCurrentShape) {
@@ -160,7 +160,7 @@ export class GameController {
       if (rows > 0) {
         const soundIsAllowed = this.soundModel.getIsAllowed();
         if (soundIsAllowed) {
-          this.soundModel.playDisappearEffect();
+          this.soundModel.playClearEffect();
         }
         this.renderNewScore(rows);
       }
