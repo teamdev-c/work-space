@@ -54,7 +54,6 @@ export class BoardView {
    * @param {number} currentY
    */
   static renderEstimatedFallingPos(currentShape, currentX, currentY, shiftY) {
-    // TODO:別のcanvas要素にして透明度を下げないとstrokeStyleが目立つ
     ctx.strokeStyle = "dimgray";
     for (let y = 0; y < 4; y++) {
       for (let x = 0; x < 4; x++) {
