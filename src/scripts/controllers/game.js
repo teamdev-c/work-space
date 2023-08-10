@@ -1,6 +1,6 @@
 import { boardConfig } from "../config";
-import { BoardModel, JudgeModel, ScoreModel, ShapeModel } from "../models";
-import { BoardView, ScoreView, GameHandlerView } from "../views";
+import { BoardModel, JudgeModel, ScoreModel, ShapeModel, SoundModel } from "../models";
+import { BoardView, ScoreView, GameHandlerView, SoundView } from "../views";
 import { GameView } from "../views/game";
 
 export class GameController {
@@ -10,21 +10,38 @@ export class GameController {
   boardModel;
   judgeModel;
   scoreModel;
+  soundModel;
 
   constructor() {
     this.shapeModel = new ShapeModel();
     this.boardModel = new BoardModel();
     this.judgeModel = new JudgeModel();
     this.scoreModel = new ScoreModel();
+    this.soundModel = new SoundModel();
     this.gameStart();
     this.updatePastScore();
   }
 
   gameStart() {
+    this.playSound();
     const gameStartButton = document.getElementById("js-game-start-button");
     gameStartButton.addEventListener("click", () => {
       this.prepareGameView();
       this.newGame();
+    });
+  }
+
+  playSound() {
+    document.getElementById("js-audio-button").addEventListener("click", () => {
+      this.soundModel.updateIsAllowed();
+      const soundIsAllowed = this.soundModel.getIsAllowed();
+      if (soundIsAllowed) {
+        this.soundModel.playBgm();
+        SoundView.switchToVolumeOn();
+      } else {
+        this.soundModel.stopBgm();
+        SoundView.switchToVolumeOff();
+      }
     });
   }
 
@@ -84,6 +101,8 @@ export class GameController {
     const currentY = this.shapeModel.getCurrentY();
     this.boardModel.appendCurrentShapeToBoard(currentShape, currentX, currentY);
     this.shapeModel.setIsFreezed();
+    const soundIsAllowed = this.soundModel.getIsAllowed();
+    if (soundIsAllowed) this.soundModel.playLandEffect();
   }
 
   valid(shiftX = 0, shiftY = 0, newCurrentShape) {
@@ -139,6 +158,10 @@ export class GameController {
       }
       const rows = await this.boardModel.clearLines();
       if (rows > 0) {
+        const soundIsAllowed = this.soundModel.getIsAllowed();
+        if (soundIsAllowed) {
+          this.soundModel.playClearEffect();
+        }
         this.renderNewScore(rows);
       }
       this.shapeModel.createNewShape();
