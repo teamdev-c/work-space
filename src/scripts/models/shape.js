@@ -1,16 +1,16 @@
 import { tetrominoConfig } from "../config";
 
 export class ShapeModel {
-  currentShape;
-  currentX;
-  currentY;
-  isFreezed;
+  #currentShape;
+  #currentX;
+  #currentY;
+  #isFreezed;
 
   constructor() {
-    this.currentShape = [];
-    this.currentX = 3;
-    this.currentY = 0;
-    this.isFreezed = false;
+    this.#currentShape = [];
+    this.#currentX = 3;
+    this.#currentY = 0;
+    this.#isFreezed = false;
   }
 
   createNewShape() {
@@ -39,51 +39,51 @@ export class ShapeModel {
   }
 
   getCurrentShape() {
-    return this.currentShape;
+    return this.#currentShape;
   }
 
   updateCurrentShape(newShape) {
-    this.currentShape = newShape;
+    this.#currentShape = newShape;
   }
 
   resetCurrentShape() {
-    this.currentShape = [];
+    this.#currentShape = [];
   }
 
   getCurrentX() {
-    return this.currentX;
+    return this.#currentX;
   }
 
   getCurrentY() {
-    return this.currentY;
+    return this.#currentY;
   }
 
   addCurrentX() {
-    this.currentX++;
+    this.#currentX++;
   }
 
   subtractCurrentX() {
-    this.currentX--;
+    this.#currentX--;
   }
 
   addCurrentY() {
-    this.currentY++;
+    this.#currentY++;
   }
 
   resetCurrentXY() {
-    this.currentX = 3;
-    this.currentY = 0;
+    this.#currentX = 3;
+    this.#currentY = 0;
   }
 
   getIsFreezed() {
-    return this.isFreezed;
+    return this.#isFreezed;
   }
 
   setIsFreezed() {
-    this.isFreezed = true;
+    this.#isFreezed = true;
   }
 
   resetIsFreezed() {
-    this.isFreezed = false;
+    this.#isFreezed = false;
   }
 }

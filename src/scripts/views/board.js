@@ -27,8 +27,7 @@ export class BoardView {
   static renderBase(board, currentShape, currentX, currentY) {
     ctx.clearRect(0, 0, boardConfig.W, boardConfig.H);
 
-    ctx.strokeStyle = "dimgray";
-    // ctx.strokeStyle = "#4d4d4d"; これ良さげかも？
+    ctx.strokeStyle = "#4d4d4d";
     for (let y = 0; y < boardConfig.ROWS; y++) {
       for (let x = 0; x < boardConfig.COLS; x++) {
         if (board[y][x]) {

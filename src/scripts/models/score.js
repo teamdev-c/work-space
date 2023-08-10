@@ -1,17 +1,17 @@
 export class ScoreModel {
-  total;
+  #total;
 
   constructor() {
-    this.total = 0;
+    this.#total = 0;
   }
 
   getTotal() {
-    return this.total;
+    return this.#total;
   }
 
   resetTotal() {
-    this.total = 0;
-    return this.total;
+    this.#total = 0;
+    return this.#total;
   }
 
   /**
@@ -20,8 +20,8 @@ export class ScoreModel {
    */
   computeTotal(x) {
     let score = 20 * (x - 1) + 10;
-    this.total += score;
-    return this.total;
+    this.#total += score;
+    return this.#total;
   }
 
   /**

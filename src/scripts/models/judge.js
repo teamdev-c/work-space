@@ -1,18 +1,18 @@
 export class JudgeModel {
-  lose;
+  #lose;
   constructor() {
-    this.lose = false;
+    this.#lose = false;
   }
 
   getLose() {
-    return this.lose;
+    return this.#lose;
   }
 
   resetLose() {
-    this.lose = false;
+    this.#lose = false;
   }
 
   makeLoser() {
-    this.lose = true;
+    this.#lose = true;
   }
 }

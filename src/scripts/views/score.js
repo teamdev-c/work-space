@@ -20,7 +20,7 @@ export class ScoreView {
    * @param {number} pastBestScore
    */
   static updatePastBestScore(pastBestScore) {
-    const pastBestScoreContainer = document.getElementById("js-score");
+    const pastBestScoreContainer = document.getElementById("js-past-best-score");
     pastBestScoreContainer.innerHTML = `過去のべすとすこあ ${pastBestScore} てん`;
   }
 }
