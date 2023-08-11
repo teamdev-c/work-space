@@ -1,3 +1,6 @@
+import bgm from "/bgm.mp3";
+import landEffect from "/landEffect.mp3";
+import clearEffect from "/clearEffect.mp3";
 export class SoundModel {
   #isAllowed;
   #bgm;
@@ -6,9 +9,9 @@ export class SoundModel {
 
   constructor() {
     this.#isAllowed = false;
-    this.#bgm = new Audio("/bgm.mp3");
-    this.#landEffect = new Audio("/block.mp3");
-    this.#clearEffect = new Audio("/disappear.mp3");
+    this.#bgm = new Audio(bgm);
+    this.#landEffect = new Audio(landEffect);
+    this.#clearEffect = new Audio(clearEffect);
   }
 
   getIsAllowed() {
