@@ -40,6 +40,14 @@
   color: var(--font-color-white);
   font-size: 48px;
   font-weight: 600;
+  position: relative;
+}
+
+.entrance_title::after {
+  content: "。";
+  position: absolute;
+  right: -50px;
+  bottom: 0;
 }
 
 .entrance_buttons {
@@ -47,7 +55,7 @@
   flex-direction: column;
   align-items: center;
   gap: 16px;
-  width: 160px;
+  width: 140px;
 }
 
 .entrance_buttons_button {
@@ -63,6 +71,11 @@
   align-items: center;
 }
 
+.entrance_buttons_button:hover {
+  transition-duration: 0.3s;
+  background-color: rgb(252, 179, 190);
+}
+
 .explanation {
   width: 360px;
   display: flex;
@@ -71,7 +84,7 @@
   gap: 32px;
   border-radius: 16px;
   padding: 32px;
-  margin-top: 180px;
+  margin-top: 140px;
 }
 
 .explanation_header {
@@ -158,6 +171,11 @@
   align-items: center;
 }
 
+.game_controller_buttons_button:hover {
+  transition-duration: 0.3s;
+  background-color: rgb(252, 179, 190);
+}
+
 .game_controller_buttons_button:disabled {
   background-color: #fcfaf2c5;
 }
@@ -191,4 +209,10 @@
 .fa-volume-high {
   color: var(--font-color-white);
   font-size: 24px;
+}
+
+.fa-volume-xmark:hover,
+.fa-volume-high:hover {
+  transition-duration: 0.3s;
+  color: rgb(252, 179, 190);
 }
