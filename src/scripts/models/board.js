@@ -24,7 +24,7 @@ export class BoardModel {
 
   async clearLines() {
     let rows = 0;
-    for (let y = 0; y < boardConfig.ROWS; ++y) {
+    for (let y = boardConfig.ROWS - 1; y >= 0; --y) {
       let ok = true;
       for (let x = 0; x < boardConfig.COLS; ++x) {
         if (!this.#board[y][x]) {
@@ -37,6 +37,7 @@ export class BoardModel {
         this.#board.splice(y, 1);
         const arr = makeArrayOfZero(boardConfig.COLS);
         this.#board.unshift(arr);
+        ++y;
         rows++;
       }
     }
