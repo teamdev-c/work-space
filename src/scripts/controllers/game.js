@@ -146,6 +146,7 @@ export class GameController {
     } else {
       this.freeze();
       this.valid(0, 1);
+      this.shapeModel.clearCurrentShape();
       const isLost = this.judgeModel.getLose();
       if (isLost) {
         this.clearAllIntervals(this.intervalId, this.intervalRenderId);

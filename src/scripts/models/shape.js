@@ -42,6 +42,10 @@ export class ShapeModel {
     return this.#currentShape;
   }
 
+  clearCurrentShape() {
+    this.#currentShape = [];
+  }
+
   updateCurrentShape(newShape) {
     this.#currentShape = newShape;
   }
